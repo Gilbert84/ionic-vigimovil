@@ -1,0 +1,88 @@
+
+
+<ion-content paddind>
+  <ion-fab left edge padding>
+    <button ion-fab><ion-icon name="add"></ion-icon></button>
+    <ion-fab-list>
+      <button ion-fab mini (click)="openPage(counterEventPage)"><ion-icon name="walk"></ion-icon></button>
+      <button ion-fab mini (click)="openPage(counterEventPage)"><ion-icon name="walk"></ion-icon></button>
+      <button ion-fab mini (click)="openPage(counterEventPage)"><ion-icon name="walk"></ion-icon></button>
+      <button ion-fab mini (click)="openPage(counterEventPage)"><ion-icon name="walk"></ion-icon></button>
+      <button ion-fab mini (click)="openPage(counterEventPage)"><ion-icon name="walk"></ion-icon></button>
+
+    </ion-fab-list>
+  </ion-fab>
+
+  <ion-fab right top padding>
+    <button ion-fab color="dark" (click)="ON_OFF_Audio()">
+      <ion-icon *ngIf="audioConteo.reproducir" name="volume-up" color="secondary"></ion-icon>
+      <ion-icon *ngIf="!audioConteo.reproducir" name="volume-off" color="danger"></ion-icon>
+    </button>
+  </ion-fab>
+
+  <ion-card text-center>
+    <ion-card-header>
+      <ion-icon style="font-size: 40px;" color="danger" name="people"></ion-icon>
+      <h1>Registro actual de pasajeros</h1>
+    </ion-card-header>
+
+    <ion-row align-items-center>
+      <ion-col class="col-border">
+        <div style="color:blue;">Hora</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div style="color:red;">Ingresos PD</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div style="color:green;">Salidas PD</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div style="color:red;">Ingresos PT</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div style="color:green;">Salidas PT</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div style="color:red;">Total Ingresos</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div style="color:green;">Total Salidas</div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row align-items-center>
+      <ion-col class="col-border">
+        <div>{{ws.contador.hora}}</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div>{{ws.contador.ch1In}}</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div>{{ws.contador.ch1Out}}</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div>{{ws.contador.ch2In}}</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div>{{ws.contador.ch2Out}}</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div>{{ws.contador.totalIn}}</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div>{{ws.contador.totalOut}}</div>
+      </ion-col>
+    </ion-row>
+
+
+  </ion-card>
+
+
+</ion-content>
+
+
+<ion-footer>
+  <ion-toolbar color="primary">
+    <ion-title>Aqui podras ver todos los detalles del contador de pasajeros...</ion-title>
+  </ion-toolbar>
+</ion-footer>

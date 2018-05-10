@@ -1,0 +1,65 @@
+
+
+<ion-content>
+
+
+
+  <ion-slides pager>
+
+      <ion-slide>
+
+        <img src="assets/imgs/usuario.png" class="slide-image img-fluid"/>
+        <h2 class="slide-title">Ingrese su clave</h2>
+        <p>Para continuar, debe de ingresar su código</p>
+
+        <ion-list>
+          <ion-item>
+            <ion-grid item-content>
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label floating>
+                      CLAVE
+                    </ion-label>
+                    <ion-input type="text"
+                                [(ngModel)]="key"
+                                (keyup.enter)="validateKey()">
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+        </ion-list>
+
+        <button ion-button
+                [disabled]="key.length < 3"
+                (click)="validateKey()">
+          Verificar
+        </button>
+
+
+      </ion-slide>
+
+
+      <!-- Ultimo Slide -->
+      <ion-slide>
+        <ion-toolbar>
+        </ion-toolbar>
+
+        <img src="assets/imgs/check.jpg" class="slide-image"/>
+        <h2 class="slide-title">¿Listo para empezar?</h2>
+
+        <button ion-button large clear icon-right color="primary"
+                (click)="login()">
+          Continuar
+          <ion-icon name="arrow-forward"></ion-icon>
+        </button>
+
+      </ion-slide>
+      <!-- Fin del último slide -->
+
+    </ion-slides>
+
+
+</ion-content>
