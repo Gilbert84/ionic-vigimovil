@@ -35,3 +35,20 @@ git remote add origin https://github.com/Gilbert84/ionic-vigimovil.git
 
 git tag -a v0.0.1 -m "socket-io ok" 
 git push --tags
+
+## comandos utiles
+
+## agrega android al proyecto
+ionic cordova platform add android
+
+## construye la aplicacion para depuracion generando un apk
+ionic cordova build android
+
+## lanza un emulador de android
+ionic cordova emulate android
+
+## lanza la aplicacion en dispositivo fisico , debe estar abierto android studio
+## debe estar selecionado el dispositivo 
+## debe estar corriendo la aplicacion en el dispositivo
+ionic cordova run android --device
+

@@ -7,8 +7,8 @@ import { IonicPage,
 import { ViewChild } from '@angular/core';
 import { Slides,List } from 'ionic-angular';
 
-
-import { UserService } from '../../providers/user/user.service';
+import { Operario } from '../../interfaces/operario.interface'
+import { OperarioService } from '../../providers/operario/operario.service';
 import { TabsPage } from '../../pages/index.pages';
 
 
@@ -22,69 +22,60 @@ export class LoginPage implements AfterViewInit{
   @ViewChild(Slides) slides:Slides;
   @ViewChild(List) list:List;
 
+  operario:Operario={
+    alias:'',
+    password:''
+  };
+
   key:string="";//llave de acceso
   keygen:string="1234";
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private userService:UserService,
+              private operarioService:OperarioService,
               private loadingCtrl:LoadingController,
               private alertCtrl:AlertController) {
   }
 
-  validateKey(){//validamos la clave del usuario
+  verificarOperario(operario:Operario){//validamos la clave del operario
+
+    this.operario=operario;
 
     let loading=this.loadingCtrl.create({
-      content:"Espere por favor..."
+      content:"Verificando espere por favor..."
     });
 
     loading.present();
 
-                      loading.dismiss();
-                        if( this.key==this.keygen){
-                          //continuar a la siguiente pantalla
-                          this.slides.lockSwipes(false);//desbloquear slides
-                          this.slides.slideNext();
-                          this.slides.lockSwipes(true);//bloquear slides
+    this.operarioService.login(operario).then((resp:any)=>{
 
-                        }else{
-                          this.alertCtrl.create({
-                            title:"La clave no es correcta",
-                            subTitle:"Por favor verifique su clave, o hable con el administrador",
-                            buttons:["Ok!"]
-                          }).present();
-                        }
+      console.log(resp);
 
-    // this.userService.validateUser(this.key)
-    //                 .then(valid=>{
-    //                   console.log('valid:');
-    //                   console.log(valid);
-    //                   loading.dismiss();
-    //                     if(valid && this.key==this.keygen){
-    //                       //continuar a la siguiente pantalla
-    //                       this.slides.lockSwipes(false);//desbloquear slides
-    //                       this.slides.slideNext();
-    //                       this.slides.lockSwipes(true);//bloquear slides
-
-    //                     }else{
-    //                       this.alertCtrl.create({
-    //                         title:"La clave no es correcta",
-    //                         subTitle:"Por favor verifique su clave, o hable con el administrador",
-    //                         buttons:["Ok!"]
-    //                       }).present();
-    //                     }
-    //                 }).catch(err=>{
-    //                    loading.dismiss();
-    //                    console.log('Error validando login: '+ JSON.stringify(err));
-    //                 });
+      loading.dismiss();
+      if(resp.ok){
+       //continuar a la siguiente pantalla segundo slide
+        this.slides.lockSwipes(false);//desbloquear slides
+        this.slides.freeMode=true;
+        this.slides.slideNext();
+        this.slides.lockSwipes(true);//bloquear slides
+        this.slides.freeMode=false;
+        this.operario=resp.operario;
+      }else{
+        this.alertCtrl.create({
+          title: resp.mensaje,
+          subTitle:"Por favor verifique su datos, o hable con el administrador",
+          buttons:["Ok!"]
+        }).present();
+      }
+    });
 
   }
 
 
-  login(){//ingresamos al segundo slide
-    console.log('root tabpage');
-    this.navCtrl.setRoot(TabsPage);
+  ingresar(){//ingresamos al area de trabajo
 
+    this.navCtrl.setRoot(TabsPage);
+    
   }
 
   ngAfterViewInit(){
@@ -92,6 +83,36 @@ export class LoginPage implements AfterViewInit{
     this.slides.lockSwipes(true);//bloquear slides
     this.slides.freeMode=false;//
     this.slides.paginationType="progress";
+  }
+
+  mostrarLogin(){
+
+    this.alertCtrl.create({
+      title: 'Ingrese el usuario',
+      inputs:[
+        {
+          name: 'alias',
+          placeholder: 'Nombre de usuario'
+        },
+        {
+          name:'password',
+          placeholder:'codigo'
+        }
+      ],
+      buttons:[
+        {
+          text:'cancelar',
+          role:'cancel'
+        },
+        {
+          text:'Ingresar',
+          handler: operario=>{
+            this.verificarOperario(operario);
+          }
+        }
+      ]
+    }).present();
+
   }
 
 

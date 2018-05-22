@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { VehicleEventPage } from './indexVehicle.pages';
-import { UserService } from '../../providers/user/user.service';
+import {  UbicacionService } from '../../providers/plugins/plugins.service.index';
+import { OperarioService } from '../../providers/operario/operario.service';
 
 /**
  * Generated class for the VehiclePage page.
@@ -25,10 +26,16 @@ export class VehiclePage {
   vehicleEventPage=VehicleEventPage;
   counter:{};
 
-  constructor( public navCtrl: NavController,
-               public navParams: NavParams,
-               private userService:UserService) {
+  zoom:number = 18;
 
+  constructor( 
+              public navCtrl: NavController,
+              public navParams: NavParams,
+              private operarioService:OperarioService,
+              private ubicacion:UbicacionService
+              ) {
+
+              this.ubicacion.iniciarUbicacion();
   }
 
   openPage(page:any){

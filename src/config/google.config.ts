@@ -1,10 +1,4 @@
-import { SocketIoConfig } from 'ng-socket-io';
-
-export const config: SocketIoConfig = {
-  url:'http://localhost:3000'
-}
-
-export const socketIOConfig={
+export const google={
     apiKey: "AIzaSyCq9JJP28eQuXj4A-fLbXthhw_3j1bZeQk",
     authDomain: "vigimovilweb.com",
     databaseURL: "",

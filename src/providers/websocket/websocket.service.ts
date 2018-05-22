@@ -35,9 +35,6 @@ export class WebsocketService {
 				this.reproducirAudio(this.audiosConteo[0]);			
 				console.log('resgistros: ',this.registros);
         		return data;
-			})
-			.catch( err => {
-				return Observable.throw( 'no se encontro el dispositivo: '+err );
 			});
 	}
 

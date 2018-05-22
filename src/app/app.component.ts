@@ -3,13 +3,16 @@ import { Platform , MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-//plugins
-import { Uid } from '@ionic-native/uid';
-import { AndroidPermissions } from '@ionic-native/android-permissions';
+//plugins servicios
+import { PermissionService } from '../providers/plugins/plugins.service.index';
+
 
 import { LoginPage,TabsPage } from '../pages/index.pages';
-import { UserService } from '../providers/user/user.service';
-import { SocketIoService } from '../providers/socket-io/socket-io';
+import { OperarioService } from '../providers/operario/operario.service';
+import { DispositivoService } from '../providers/dispositivo/dispositivo.service';
+
+
+
 
 
 
@@ -21,54 +24,52 @@ export class MyApp {
   rootPage:any = LoginPage;
   tabsPage:any =TabsPage;
 
-  dispositivo = {
-    UUID: '',
-    MAC:'',
-    IMEI:'',
-    IMSI:'',
-    ICCID:'',
-    NAME: 'K900'
-  };
+  android:boolean;
+
+
 
   constructor(
-              platform: Platform,
-              statusBar: StatusBar,
-              splashScreen: SplashScreen,
-              private userService:UserService,
-              private io:SocketIoService,
+              private platform: Platform,
+              private statusBar: StatusBar,
+              private splashScreen: SplashScreen,
+              private operarioService:OperarioService,
+              private dispositivo:DispositivoService,
+              private permission:PermissionService,
               public menuCtrl:MenuController,
-              private uid: Uid,
-              private androidPermissions: AndroidPermissions
               ) {
 
+                
                   platform.ready().then(() => {
 
-                    this.io.sendMessageDev(this.dispositivo);
-                    this.io
-                    .getMessage()
-                    .subscribe(msg => {
-                      console.log('servidor:', msg);
+                    dispositivo.cargarStorage().then((registrado)=>{
+                      if(registrado){
+                        console.log('dispositivo registrado');
+                        if(permission.android){
+                          this.dispositivo.uid();
+                        }
+
+                      }else{
+                        console.log('registrando dispositivo');
+                        this.dispositivo.registarDispositivo();
+                      }
                     });
 
 
-                  // Okay, so the platform is ready and our plugins are available.
-                  // Here you can do any higher level native things you might need.
-                  // this.userService.loadStorage()
-                  //                 .then(()=>{
-                  //                   if(this.userService.key){
-                  //                     this.rootPage=TabsPage;
-                  //                     console.log('tabspage inicio');
-                  //                   }else{
-                  //                     this.rootPage=LoginPage;
-                  //                   }
+                    this.operarioService.cargarStorage().then((existe)=>{
 
-                  //                   statusBar.styleDefault();
-                  //                   splashScreen.hide();
+                      if(existe){
+                        this.rootPage=this.tabsPage;
+                      }else{
+                        this.rootPage=LoginPage
+                    }
+                  }); 
 
-                  //                 });
+                  statusBar.styleDefault();
+                  splashScreen.hide();
 
-                  });
-                }
+                });
+  }
+
 
   openPageSettings(page:any){
     this.rootPage=page;
@@ -82,29 +83,5 @@ export class MyApp {
   closeMenuSettings(){
     this.menuCtrl.close();
   }
-
-  async getImei() {
-    const { hasPermission } = await this.androidPermissions.checkPermission(
-      this.androidPermissions.PERMISSION.READ_PHONE_STATE
-    );
-   
-    if (!hasPermission) {
-      const result = await this.androidPermissions.requestPermission(
-        this.androidPermissions.PERMISSION.READ_PHONE_STATE
-      );
-   
-      if (!result.hasPermission) {
-        throw new Error('Permiso requerido');
-      }
-   
-      // ok, a user gave us permission, we can get him identifiers after restart app
-      return;
-    }
-   
-     return this.uid.IMEI
-   }
-
-
-
-
+  
 }

@@ -1,19 +1,37 @@
-<ion-content padding>
-  <ion-fab left edge padding>
-    <button ion-fab color="submenu"><ion-icon name="add"></ion-icon></button>
-    <ion-fab-list>
-      <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
-      <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
-      <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
-      <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
-      <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
+<ion-header>
 
-    </ion-fab-list>
-  </ion-fab>
-  
-  <ion-header>
+</ion-header>
 
-  </ion-header>
+
+<ion-content>
+
+    <ion-fab bottom left>
+        <button ion-fab color="dark"><ion-icon name="arrow-dropright"></ion-icon></button>
+        <ion-fab-list side="right">
+          <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
+          <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
+          <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
+          <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
+          <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
+    
+        </ion-fab-list>
+    </ion-fab>
+    <agm-map 
+      [latitude]="this.ubicacion.coords.latitude" 
+      [longitude]="ubicacion.coords.longitude"
+      [zoom]="zoom"
+      maxZoom="19"
+      minZoom="16"
+      mapTypeControl="true"
+      streetViewControl="false"
+      keyboardShortcuts="false"
+      disableDoubleClickZoom="true">
+      <agm-marker 
+        [latitude]="ubicacion.coords.latitude" 
+        [longitude]="ubicacion.coords.longitude"
+        iconUrl="assets/icon/bus.png">
+      </agm-marker>
+    </agm-map>
 
 </ion-content>
 

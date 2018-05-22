@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CounterEventPage } from './indexCounter.pages';
 //import { UserService } from '../../providers/user/user.service';
-import { SocketIoService } from '../../providers/socket-io/socket-io';
-import { WebsocketService } from '../../providers/websocket/websocket';
+import { SocketIoService } from '../../providers/socket-io/socket-io.service';
+import { WebsocketService } from '../../providers/websocket/websocket.service';
 import { AudioConteo } from '../../interfaces/audioConteo.interface';
 
 
