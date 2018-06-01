@@ -60,8 +60,9 @@ export class MyApp {
                       if(existe){
                         this.rootPage=this.tabsPage;
                       }else{
-                        this.rootPage=LoginPage
-                    }
+                        //this.rootPage=LoginPage
+                        this.rootPage=this.tabsPage;
+                      }
                   }); 
 
                   statusBar.styleDefault();

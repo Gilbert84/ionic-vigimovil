@@ -3,10 +3,22 @@
 export class ScanData{
 
   info:string;
-  type:string;
+  tipo:string;
 
-  constructor(typeFile:string){
-    this.type=typeFile;
+  constructor(texto:string){
+    
+    this.tipo='no definido';
+    this.info=texto;
+
+    if(texto.startsWith('http')){
+      this.tipo='http';
+    }
+    else if (texto.startsWith('geo')){
+      this.tipo='mapa';
+    }
+    else if (texto.startsWith('BEGIN:VCARD')){
+      this.tipo='passvcard';
+    }
   }
 
 }

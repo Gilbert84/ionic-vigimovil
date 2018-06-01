@@ -14,6 +14,7 @@ import { config } from '../config/socket-io.config';
 //ruta de plugins modules
 import { PluginsModule } from '../providers/plugins/plugins.module';
 import { AgmCoreModule } from '@agm/core';//mapas
+import { NgxGaugeModule } from 'ngx-gauge';//gauge
 
 //servicios
 import { OperarioService } from '../providers/operario/operario.service';
@@ -27,7 +28,7 @@ import { MyApp } from './app.component';
 //paginas globales
 import { LoginPage,TabsPage,CounterPage,VehiclePage } from '../pages/index.pages';
 //paginas locales o sub rutas
-import { CounterEventPage } from '../pages/counter/indexCounter.pages';
+import { CounterEventPage , QrScannerPage } from '../pages/counter/indexCounter.pages';
 import { VehicleEventPage } from '../pages/vehicle/indexVehicle.pages';
 
 
@@ -42,11 +43,13 @@ import { VehicleEventPage } from '../pages/vehicle/indexVehicle.pages';
     CounterPage,
     CounterEventPage,
     VehiclePage,
-    VehicleEventPage
+    VehicleEventPage,
+    QrScannerPage
   ],
   imports: [
     BrowserModule,
     CommonModule,
+    NgxGaugeModule,
     IonicModule.forRoot(MyApp),
     SocketIoModule.forRoot(config),
     AgmCoreModule.forRoot({
@@ -63,7 +66,8 @@ import { VehicleEventPage } from '../pages/vehicle/indexVehicle.pages';
     CounterPage,
     CounterEventPage,
     VehiclePage,
-    VehicleEventPage
+    VehicleEventPage,
+    QrScannerPage
   ],
   providers: [
     StatusBar,

@@ -52,3 +52,11 @@ ionic cordova emulate android
 ## debe estar corriendo la aplicacion en el dispositivo
 ionic cordova run android --device
 
+
+
+##se instala https://github.com/ashish-chopra/ngx-gauge
+
+npm install --save ngx-gauge 
+ 
+
+

@@ -1,17 +1,39 @@
 <ion-header>
-    <ion-navbar color="primary">
-        <ion-buttons>
-            <button ion-button full (click)="cerrarSession()" color="secundary"><ion-icon name="exit"></ion-icon></button>
-        </ion-buttons>
-    </ion-navbar>
+
 </ion-header>
 <ion-content padding-vertical>
 
-    <ion-tabs  tabsHighlight="true" tabsPlacement="top">
-      <ion-tab tabIcon="bus" tabTitle="Principal" [root]="tab1" tabBadge="3" tabBadgeStyle="danger" ></ion-tab>
-      <ion-tab tabIcon="contacts" tabTitle="Pasajeros" [root]="tab2"></ion-tab>
+
+    <ion-tabs  tabsHighlight="true" tabsPlacement="top" color="primary">
+      <ion-tab tabIcon="bus" tabTitle="Principal" [root]="tab1" tabBadge="3" tabBadgeStyle="danger"></ion-tab>
+      <ion-tab tabIcon="contacts" tabTitle="Pasajeros" [root]="tab2" tabBadge="5" tabBadgeStyle="danger"></ion-tab>
     </ion-tabs>
 
 </ion-content>
+
+<ion-footer style="background-color: ghostwhite;">
+    
+
+    <ion-toolbar color="primary">
+
+
+        <ion-buttons>
+            <button ion-button >
+                <ion-icon name="contact" style="font-size: 30px;"></ion-icon>
+                <ion-col>
+                        Gilberto
+                </ion-col>
+            </button>
+        </ion-buttons>
+ 
+
+        <ion-buttons end>
+            <button ion-button icon-right large (click)="cerrarSession()">
+                <ion-icon name="exit" style="font-size: 30px;"></ion-icon>
+                </button>
+        </ion-buttons>
+    </ion-toolbar>
+
+</ion-footer>
 
 

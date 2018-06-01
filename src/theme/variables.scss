@@ -49,9 +49,13 @@ $colors: (
 //$tabs-md-tab-padding-active-top:50px;
 
 //*******modificacion color del icono del tab activo*******
-//$tabs-md-tab-icon-color-active: blue;
+//$tabs-md-tab-icon-color-active: red;
 //$tabs-md-tab-color-active:                color($colors, tabs);
 //$tabs-md-tab-color:                       color($colors, tabs); 
+$tabs-md-tab-opacity:0.4; // opacidad del tab inactivo
+$tabs-md-tab-font-size-active:1.6rem; //tamaño del texto
+$tabs-md-tab-icon-size:2.7rem; //tamaño icono
+
 
 
 $fab-size:60px;
@@ -102,3 +106,4 @@ $fab-list-margin:20px;
 
 @import "roboto";
 @import "noto-sans";
+

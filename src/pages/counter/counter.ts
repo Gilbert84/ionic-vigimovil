@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { CounterEventPage } from './indexCounter.pages';
+import { CounterEventPage, QrScannerPage , } from './indexCounter.pages';
 //import { UserService } from '../../providers/user/user.service';
-import { SocketIoService } from '../../providers/socket-io/socket-io.service';
-import { WebsocketService } from '../../providers/websocket/websocket.service';
+import { CounterService , Comando } from '../../providers/counter/counter.service';
+import { TextoAVozService } from '../../providers/plugins/plugins.service.index';
 import { AudioConteo } from '../../interfaces/audioConteo.interface';
+
+
 
 
 @IonicPage()
@@ -15,40 +17,56 @@ import { AudioConteo } from '../../interfaces/audioConteo.interface';
 export class CounterPage {
 
   counterEventPage=CounterEventPage;
+  qrScannerPage=QrScannerPage;
   audioConteo:AudioConteo;
 
+  
+  gaugeType = "semi";
+  //gaugeValue = 28.3;
+  //gaugeLabel = "Speed";
+  gaugeAppendText = "";
+  gaugethick=10;
+  gaugeSize=90;
+  gaugeMax=150;
+
+	private comando:Comando={
+    tipo: 1,
+    codigo: 2,
+    mensaje:'reinicio'
+  }
 
   constructor (
-                public navCtrl: NavController,
-                public navParams: NavParams,
-                public io:SocketIoService,
-                private ws:WebsocketService,
-              ) 
-              {
+      public navCtrl: NavController,
+      public navParams: NavParams,
+      //public io:SocketIoService,
+      private contadorService:CounterService,
+      private textoAVozService:TextoAVozService
+    ){
+      this.audioConteo = this.contadorService.audiosConteo[0];
 
-              this.audioConteo = this.ws.audiosConteo[0];
-
-
-             // ws.messages.subscribe(data => {		
-             //   this.contador=data;
-             // });
   }
 
   openPage(page:any){
     this.navCtrl.push(page);
-
   }
 
   ON_OFF_Audio(){
+    
     if (this.audioConteo.reproducir){
-      this.ws.reproducirAudio(this.audioConteo);
       this.audioConteo.reproducir= false;
     }else{
-      this.ws.reproducirAudio(this.audioConteo);
-      //this.ws.pausarAudio(this.audioConteo);
       this.audioConteo.reproducir= true;
     }
+    this.contadorService.reproducirAudio(this.audioConteo);
+    this.reiniciar();
   }
+
+
+  reiniciar(){
+    this.contadorService.enviarComando(this.comando);
+    this.textoAVozService.decir('Reinicio contador de pasajeros');
+  }
+
 
 
 }

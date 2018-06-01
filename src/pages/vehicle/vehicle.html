@@ -4,8 +4,9 @@
 
 
 <ion-content>
+    
 
-    <ion-fab bottom left>
+  <ion-fab bottom left>
         <button ion-fab color="dark"><ion-icon name="arrow-dropright"></ion-icon></button>
         <ion-fab-list side="right">
           <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
@@ -15,28 +16,48 @@
           <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
     
         </ion-fab-list>
-    </ion-fab>
-    <agm-map 
-      [latitude]="this.ubicacion.coords.latitude" 
-      [longitude]="ubicacion.coords.longitude"
-      [zoom]="zoom"
-      maxZoom="19"
-      minZoom="16"
-      mapTypeControl="true"
-      streetViewControl="false"
-      keyboardShortcuts="false"
-      disableDoubleClickZoom="true">
-      <agm-marker 
-        [latitude]="ubicacion.coords.latitude" 
-        [longitude]="ubicacion.coords.longitude"
-        iconUrl="assets/icon/bus.png">
-      </agm-marker>
-    </agm-map>
+  </ion-fab>
+
+
+  <div ion-col col-12 style="width: 100%; height: 100%;">
+        <agm-map 
+          [latitude]="this.ubicacion.coords.latitude" 
+          [longitude]="ubicacion.coords.longitude"
+          [zoom]="zoom"
+          maxZoom="19"
+          minZoom="16"
+          mapTypeControl="true"
+          streetViewControl="false"
+          keyboardShortcuts="false"
+          disableDoubleClickZoom="true">
+          <agm-marker 
+            [latitude]="ubicacion.coords.latitude" 
+            [longitude]="ubicacion.coords.longitude"
+            iconUrl="assets/icon/bus.png">
+          </agm-marker>
+      </agm-map>
+   </div>
 
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar color="primary">
-    <ion-title>Aqui podras ver todos los detalles sobre su despachos...</ion-title>
-  </ion-toolbar>
+<ion-footer style="background-color: ghostwhite">
+
+    <ion-row align-items-center>
+        <ion-col class="col-border">
+          <div style="color:blue;">Hora</div>
+        </ion-col>
+        <ion-col class="col-border">
+          <div style="color:blue;">Estado</div>
+        </ion-col>
+        <ion-col class="col-border">
+          <div style="color:blue;">Ruta</div>
+        </ion-col>
+        <ion-col class="col-border">
+          <div style="color:blue;">Tiempo</div>
+        </ion-col>
+        <ion-col class="col-border">
+          <div style="color:green;">Marcador</div>
+        </ion-col>
+    </ion-row>
+
 </ion-footer>
