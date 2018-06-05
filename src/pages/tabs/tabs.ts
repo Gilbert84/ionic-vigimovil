@@ -43,13 +43,13 @@ export class TabsPage {
     this.contadorService.contador
       .subscribe(
       (data)=>{
-        console.log("tabs" , data);
+        //console.log("tabs" , data);
       },
       (error)=>{
-        console.log('error: ',error);
+        //console.log('error: ',error);
       },
       ()=>{
-        console.log('se detuvo el observador');
+        //console.log('se detuvo el observador');
         this.alertCtrl.create({
 					title: 'Advertencia!!!',
 					subTitle:"No se pudo establecer comunicacion con el dispositivo",
@@ -59,14 +59,6 @@ export class TabsPage {
       }
     );
   }
-
-
-	// enviarComando(cmd){
-	// 	console.log('nuevo mensaje de la tablet al dispositivo: ', this.comando);
-	// 	this.contadorService.contador.next(this.comando);
-	// 	this.comando.mensaje = '';
-	// }
-
 
   cerrarSession(){
     this.navCtrl.setRoot(LoginPage);

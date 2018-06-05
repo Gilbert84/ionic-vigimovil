@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 
 
 @Injectable()
-export class MenuService {
+export class ConfigService {
 
 
 	constructor() {
-		console.log('obteniendo info de menu service');
+		console.log('obteniendo configuracion de servicio');
 
     }
     

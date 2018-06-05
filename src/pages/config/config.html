@@ -3,6 +3,11 @@
 
   <ion-navbar color="primary">
     <ion-title>configuracion de la aplicacion</ion-title>
+    <ion-buttons end>
+        <button ion-button icon-right large (click)="cerrarSession()">
+            <ion-icon name="exit"></ion-icon>
+            </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -12,16 +17,44 @@
   <ion-list>
 
     <ion-item>
-      <ion-label>Auto Inicio</ion-label>
+      <ion-label  color="primary" stacked>Auto Inicio</ion-label>
+      <ion-label>Habilita o desabilita el Auto inicio</ion-label>
       <ion-toggle [(ngModel)]="autoInicio"></ion-toggle>
     </ion-item>
 
-    {{autoInicio}}
     <ion-item>
-      <ion-label>Area Metropolitana</ion-label>
+      <ion-label  color="primary" stacked>Area Metropolitana</ion-label>
+      <ion-label>Habilita o desabilita el envio de informacion</ion-label>
       <ion-toggle [(ngModel)]="areaMetropool"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+        <ion-label color="primary" stacked>direccion server</ion-label>
+        <ion-input type="url" placeholder="Ingrese la url o la ip"></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label color="primary" stacked>direccion ip contador</ion-label>
+        <ion-input type="url" placeholder="Ingrese la url o la ip"></ion-input>
+    </ion-item>
+
+    <ion-item>
+        <ion-label color="primary" stacked>Api key</ion-label>
+        <ion-input type="password" placeholder="Ingrese la llave"></ion-input>
     </ion-item>
     
   
   </ion-list>
 </ion-content>
+
+<ion-footer>
+    <ion-navbar color="save">
+
+          <ion-buttons>
+              <button ion-button icon-left (click)="guardar()">
+                  <ion-icon name="done-all"></ion-icon>
+                  Guardar y Salir
+              </button>
+          </ion-buttons>
+
+      </ion-navbar> 
+</ion-footer>

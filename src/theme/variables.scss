@@ -43,7 +43,9 @@ $colors: (
   tab2:       #BC35E8,
   tab3:       #FFF897,
   submenu:    #E84070,
-  tabs:       #0d3f13
+  tabs:       #0d3f13,
+  save:       #23852e,
+  menu:       #241f72
 );
 //$tabs-md-tab-padding-top:50px;
 //$tabs-md-tab-padding-active-top:50px;
@@ -62,6 +64,12 @@ $fab-size:60px;
 $fab-mini-size:50px;
 $fab-content-margin:20px;
 $fab-list-margin:20px;
+
+
+
+$toggle-md-disabled-opacity: 0.7; // opacidad de fonfo toogle
+
+
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here

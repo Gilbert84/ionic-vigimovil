@@ -26,7 +26,14 @@ import { WebsocketService } from '../providers/websocket/websocket.service';
 
 import { MyApp } from './app.component';
 //paginas globales
-import { LoginPage,TabsPage,CounterPage,VehiclePage, ConfigPage } from '../pages/index.pages';
+import { 
+          LoginPage,
+          TabsPage,
+          CounterPage,
+          VehiclePage, 
+          ConfigPage,
+          AcercaPage
+        } from '../pages/index.pages';
 //paginas locales o sub rutas
 import { CounterEventPage , QrScannerPage } from '../pages/counter/indexCounter.pages';
 import { VehicleEventPage } from '../pages/vehicle/indexVehicle.pages';
@@ -45,7 +52,8 @@ import { VehicleEventPage } from '../pages/vehicle/indexVehicle.pages';
     VehiclePage,
     VehicleEventPage,
     QrScannerPage,
-    ConfigPage
+    ConfigPage,
+    AcercaPage
   ],
   imports: [
     BrowserModule,
@@ -69,7 +77,8 @@ import { VehicleEventPage } from '../pages/vehicle/indexVehicle.pages';
     VehiclePage,
     VehicleEventPage,
     QrScannerPage,
-    ConfigPage
+    ConfigPage,
+    AcercaPage
   ],
   providers: [
     StatusBar,

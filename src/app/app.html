@@ -1,23 +1,20 @@
 
 <ion-menu [content]="content">
   <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="menu">
     <ion-title>Menu</ion-title>
   </ion-toolbar>
   </ion-header>
   <ion-content>
     <ion-list>
-      <button ion-item (click)="openPageSettings(configPage)">
-        Administrador
+      <button ion-item (click)="loginAdmin(configPage)">
+        Configuracíon
       </button>
-      <button ion-item (click)="openPageSettings(tabsPage)">
-        Dispositivo
+      <button ion-item (click)="openPageSettings(acercaPage)">
+        Acerca
       </button>
-      <button ion-item (click)="openPageSettings(tabsPage)">
-        Eventos
-      </button>
-      <button ion-item (click)="openPageSettings(tabsPage)">
-        Crrar Sesion
+      <button ion-item (click)="openPageSettings(loginPage)">
+        Cerrar Seccíon
       </button>
       <button ion-item (click)="closeMenuSettings()">
         Cerrar Menu
