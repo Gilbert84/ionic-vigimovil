@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { SocketIoService } from '../socket-io/socket-io.service';
-import { PermissionService } from '../plugins/permission/permission.service'
+import { PermissionService } from '../plugins-nativos/permission/permission.service'
 import { Dispositivo } from '../../interfaces/dispositivo.interface';
 import { URL_SERVICIOS } from '../../config/url.servicios.config';
 

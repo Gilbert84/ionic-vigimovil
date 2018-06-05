@@ -12,7 +12,7 @@ import { config } from '../config/socket-io.config';
 
 
 //ruta de plugins modules
-import { PluginsModule } from '../providers/plugins/plugins.module';
+import { PluginsModule } from '../providers/plugins-nativos/plugins.module';
 import { AgmCoreModule } from '@agm/core';//mapas
 import { NgxGaugeModule } from 'ngx-gauge';//gauge
 
@@ -26,7 +26,7 @@ import { WebsocketService } from '../providers/websocket/websocket.service';
 
 import { MyApp } from './app.component';
 //paginas globales
-import { LoginPage,TabsPage,CounterPage,VehiclePage } from '../pages/index.pages';
+import { LoginPage,TabsPage,CounterPage,VehiclePage, ConfigPage } from '../pages/index.pages';
 //paginas locales o sub rutas
 import { CounterEventPage , QrScannerPage } from '../pages/counter/indexCounter.pages';
 import { VehicleEventPage } from '../pages/vehicle/indexVehicle.pages';
@@ -44,7 +44,8 @@ import { VehicleEventPage } from '../pages/vehicle/indexVehicle.pages';
     CounterEventPage,
     VehiclePage,
     VehicleEventPage,
-    QrScannerPage
+    QrScannerPage,
+    ConfigPage
   ],
   imports: [
     BrowserModule,
@@ -67,7 +68,8 @@ import { VehicleEventPage } from '../pages/vehicle/indexVehicle.pages';
     CounterEventPage,
     VehiclePage,
     VehicleEventPage,
-    QrScannerPage
+    QrScannerPage,
+    ConfigPage
   ],
   providers: [
     StatusBar,

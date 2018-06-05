@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CounterEventPage, QrScannerPage , } from './indexCounter.pages';
 //import { UserService } from '../../providers/user/user.service';
 import { CounterService , Comando } from '../../providers/counter/counter.service';
-import { TextoAVozService } from '../../providers/plugins/plugins.service.index';
+import { TextoAVozService } from '../../providers/plugins-nativos/plugins.service.index';
 import { AudioConteo } from '../../interfaces/audioConteo.interface';
 
 

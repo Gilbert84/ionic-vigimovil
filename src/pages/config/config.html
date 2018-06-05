@@ -1,0 +1,27 @@
+
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>configuracion de la aplicacion</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+
+    <ion-item>
+      <ion-label>Auto Inicio</ion-label>
+      <ion-toggle [(ngModel)]="autoInicio"></ion-toggle>
+    </ion-item>
+
+    {{autoInicio}}
+    <ion-item>
+      <ion-label>Area Metropolitana</ion-label>
+      <ion-toggle [(ngModel)]="areaMetropool"></ion-toggle>
+    </ion-item>
+    
+  
+  </ion-list>
+</ion-content>

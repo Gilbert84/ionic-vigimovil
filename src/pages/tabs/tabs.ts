@@ -3,7 +3,7 @@ import { IonicPage,NavController,AlertController} from 'ionic-angular';
 import { VehiclePage, CounterPage , LoginPage} from '../index.pages'
 import { WebsocketService } from '../../providers/websocket/websocket.service';
 import { CounterService } from '../../providers/counter/counter.service';
-import { UbicacionService } from '../../providers/plugins/plugins.service.index';
+import { UbicacionService } from '../../providers/plugins-nativos/plugins.service.index';
 
 
 

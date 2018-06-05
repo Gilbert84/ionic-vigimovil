@@ -4,10 +4,10 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 //plugins servicios
-import { PermissionService } from '../providers/plugins/plugins.service.index';
+import { PermissionService } from '../providers/plugins-nativos/plugins.service.index';
 
 
-import { LoginPage,TabsPage } from '../pages/index.pages';
+import { LoginPage,TabsPage  , ConfigPage} from '../pages/index.pages';
 import { OperarioService } from '../providers/operario/operario.service';
 import { DispositivoService } from '../providers/dispositivo/dispositivo.service';
 
@@ -23,6 +23,7 @@ export class MyApp {
 
   rootPage:any = LoginPage;
   tabsPage:any =TabsPage;
+  configPage:any=ConfigPage;
 
   android:boolean;
 

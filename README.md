@@ -41,6 +41,11 @@ git push --tags
 ## agrega android al proyecto
 ionic cordova platform add android
 
+
+## agregar o actualizar los resources de forma automatica
+
+ionic cordova resources
+
 ## construye la aplicacion para depuracion generando un apk
 ionic cordova build android
 

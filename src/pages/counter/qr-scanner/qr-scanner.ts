@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams , ToastController, Platform } from 'ionic-angular';
-import { BarcodeScanner , QrScannerService } from '../../../providers/plugins/plugins.service.index'
+import { BarcodeScanner , QrScannerService } from '../../../providers/plugins-nativos/plugins.service.index'
 
 
 @IonicPage()

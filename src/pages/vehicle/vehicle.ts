@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { VehicleEventPage } from './indexVehicle.pages';
-import {  UbicacionService } from '../../providers/plugins/plugins.service.index';
+import {  UbicacionService } from '../../providers/plugins-nativos/plugins.service.index';
 import { OperarioService } from '../../providers/operario/operario.service';
 
 /**
