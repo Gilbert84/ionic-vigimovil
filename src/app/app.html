@@ -1,0 +1,29 @@
+
+<ion-menu [content]="content">
+  <ion-header>
+  <ion-toolbar color="menu">
+    <ion-title>Menu</ion-title>
+  </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <button ion-item (click)="loginAdmin(configPage)">
+        Configuracíon
+      </button>
+      <button ion-item (click)="openPageSettings(acercaPage)">
+        Acerca
+      </button>
+      <button ion-item (click)="openPageSettings(loginPage)">
+        Cerrar Seccíon
+      </button>
+      <button ion-item (click)="closeMenuSettings()">
+        Cerrar Menu
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+
+
+
+<ion-nav [root]="rootPage" #content></ion-nav>

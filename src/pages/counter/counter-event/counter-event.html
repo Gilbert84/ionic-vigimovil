@@ -1,0 +1,71 @@
+
+
+<ion-content padding>
+  <ion-card text-center>
+    <ion-card-header>
+      <ion-icon style="font-size: 40px;" color="danger" name="people"></ion-icon>
+      <h1>Registro actual de pasajeros</h1>
+    </ion-card-header>
+
+    <ion-row align-items-center>
+      <ion-col class="col-border">
+        <div style="color:blue;">Hora</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div style="color:red;">Ingresos PD</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div style="color:green;">Salidas PD</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div style="color:red;">Ingresos PT</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div style="color:green;">Salidas PT</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div style="color:red;">Total Ingresos</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div style="color:green;">Total Salidas</div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row align-items-center *ngFor="let registro of contadorService.registros">
+      <ion-col class="col-border">
+        <div>hora</div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row align-items-center>
+      <ion-col class="col-border">
+        <div>hora</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div>ch1In</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div>ch1Out</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div>ch2In</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div>ch2Out</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div>totalIn</div>
+      </ion-col>
+      <ion-col class="col-border">
+        <div>totalOut</div>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-navbar color="primary">
+    <ion-title>Regresar</ion-title>
+  </ion-navbar>
+
+</ion-footer>
