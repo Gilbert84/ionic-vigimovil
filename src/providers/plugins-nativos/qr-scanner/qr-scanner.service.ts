@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Platform } from 'ionic-angular';
 
 import { ScanData } from '../../../models/scan-data.model';
-//plugins que requieren permiso de uso
-import { Uid , AndroidPermissions , BatteryStatus} from '../plugins.service.index';
+
 
 
 @Injectable()
@@ -12,12 +10,7 @@ export class QrScannerService {
     //arreglo de objetos de tipo scan data
     historial:ScanData[]=[];
 
-    constructor(
-        private platform:Platform,
-
-    ){
-
-    }
+    constructor(){}
 
     agregarRegistro(texto:string){
         let data = new ScanData(texto);

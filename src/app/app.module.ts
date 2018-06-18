@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule , ApplicationRef } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core'; //  ApplicationRef
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from  '@angular/common/http';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -22,6 +22,9 @@ import { DispositivoService } from '../providers/dispositivo/dispositivo.service
 import { CounterService } from '../providers/counter/counter.service';
 import { SocketIoService } from '../providers/socket-io/socket-io.service';
 import { WebsocketService } from '../providers/websocket/websocket.service';
+
+//servicio global 
+import { GlobalService } from '../global/global.service';
 
 
 import { MyApp } from './app.component';
@@ -88,7 +91,8 @@ import { VehicleEventPage } from '../pages/vehicle/indexVehicle.pages';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SocketIoService,
     WebsocketService,
-    DispositivoService
+    DispositivoService,
+    GlobalService
   ]
 })
 export class AppModule {}

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Platform , ToastController } from 'ionic-angular';
+import { GlobalService } from '../../../global/global.service'
+import { ToastController } from 'ionic-angular';
 //plugins que requieren permiso de uso
 import {    
             Uid , 
@@ -8,32 +9,28 @@ import {
             AndroidFullScreen,
             StatusBar 
         } from '../plugins.service.index';
-import { stringify } from '@angular/compiler/src/util';
 
 
 @Injectable()
 export class PermissionService {
 
-    public android:boolean;
-
     constructor(
-        public  toastCtrl :ToastController,
+        globalService:GlobalService,
+        private toastCtrl :ToastController,
         private androidPermissions:AndroidPermissions,
         private uid:Uid,
-        private platform:Platform,
         private batteryStatus: BatteryStatus,
         private androidFullScreen:AndroidFullScreen,
         private statusBar:StatusBar
     ){
-        if(platform.is('cordova')){
+        if(globalService.android){
             //dispositvo
-            this.android=true;
             this.fullScreen();
             this.barraEstado();
   
         }else{
             //escritorio
-            this.android=false;
+            this.mostrarMensaje('Entorno de trabajo: Escritorio',5000);
         }
 
     }

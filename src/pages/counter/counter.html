@@ -25,11 +25,9 @@
     <ion-row align-items-center>
 
         <ion-col>
-            
-            <img 
-              src="assets/icon/svg/opened-double-door.svg" 
-              height="70px"/>
-              puerta Delantera
+            <img *ngIf="estadoPuerta1" src="assets/icon/svg/puerta-abierta.svg" height="70px"/>
+            <img *ngIf="!estadoPuerta1" src="assets/icon/svg/puerta-cerrada.svg" height="70px"/>
+              Puerta Delantera
         </ion-col>
 
         <ion-col>
@@ -59,17 +57,13 @@
         </ion-col>
 
         <ion-col>
-            <!-- <ngx-gauge
-            foregroundColor="green"
-            [max]="gaugeMax"
-            [size]="gaugeSize"
-              [thick]="gaugethick" 
-              [type]="gaugeType" 
-              value="50" 
-              label="Pendientes por pagar"  
-              [append]="gaugeAppendText">
-            </ngx-gauge> -->
-      </ion-col>
+              <ion-card-content>
+                  <ion-card-title>
+                      <ion-label  color="primary" stacked>Cerrar-Abrir</ion-label>
+                  </ion-card-title>
+                  <button ion-button color="light"><ion-toggle color="secondary" [(ngModel)]="estadoPuerta1" (click)="abrirOcerrarPuerta2(estadoPuerta1)"></ion-toggle></button>   
+              </ion-card-content>
+        </ion-col>
 
     </ion-row>
   </ion-card>
@@ -77,12 +71,9 @@
   <ion-card text-center paddind>
     <ion-row align-items-center>
             <ion-col>
-                
-                <img
-                  class="slide-image" 
-                  src="assets/icon/svg/double-door-closed.svg" 
-                  height="70px">
-                  Puerta Trasera
+              <img *ngIf="estadoPuerta2" src="assets/icon/svg/puerta-abierta.svg" height="70px"/>
+              <img *ngIf="!estadoPuerta2" src="assets/icon/svg/puerta-cerrada.svg" height="70px"/>
+              Puerta Trasera
             </ion-col>
                   
             <ion-col>
@@ -112,14 +103,15 @@
             </ion-col>
 
             <ion-col>
-                <!-- <ngx-gauge
-                  [thick]="gaugethick" 
-                  [type]="gaugeType" 
-                  [value]="0" 
-                  label="Pasajeros a bordo"  
-                  [append]="gaugeAppendText">
-                </ngx-gauge> -->
-          </ion-col>
+
+                <ion-card-content>
+                    <ion-card-title>
+                        <ion-label  color="primary" stacked>Cerrar-Abrir</ion-label>
+                    </ion-card-title>
+                    <button ion-button color="light"><ion-toggle color="secondary" [(ngModel)]="estadoPuerta2" (click)="abrirOcerrarPuerta2(estadoPuerta2)"></ion-toggle></button>   
+                </ion-card-content>
+
+            </ion-col>
     </ion-row>
   </ion-card>
   

@@ -5,7 +5,7 @@ import {
           AlertController, 
           LoadingController
         } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
+
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 //plugins servicios
@@ -20,6 +20,7 @@ import {
         } from '../pages/index.pages';
 import { OperarioService } from '../providers/operario/operario.service';
 import { DispositivoService } from '../providers/dispositivo/dispositivo.service';
+import { GlobalService } from '../global/global.service'
 
 
 
@@ -42,15 +43,15 @@ export class MyApp {
 
 
   constructor(
-              private platform: Platform,
-              private statusBar: StatusBar,
-              private splashScreen: SplashScreen,
+              platform: Platform,
+              splashScreen: SplashScreen,
               private operarioService:OperarioService,
               private dispositivo:DispositivoService,
               private permission:PermissionService,
               public menuCtrl:MenuController,
               private alertCtrl:AlertController,
               private loadingCtrl:LoadingController,
+              public globalService:GlobalService
               ) {
 
                 
@@ -58,31 +59,28 @@ export class MyApp {
 
                     dispositivo.cargarStorage().then((registrado)=>{
 
-                        
-                    //statusBar.styleDefault();
                     splashScreen.hide();
 
+                    console.log('inicio aplicacion');
+
                       if(registrado){
-                        this.permission.mostrarMensaje('dispositivo registrado',1000);
-                        if(permission.android){
-                          this.dispositivo.uid();
-                        }
+                        this.permission.mostrarMensaje('dispositivo ya esta registrado',3000);
 
                       }
                       else{
-                        this.permission.mostrarMensaje('registrando dispositivo',1000);
+                        this.permission.mostrarMensaje('registrando dispositivo',3000);
                         this.dispositivo.registarDispositivo();
                       }
                     });
 
 
                     this.operarioService.cargarStorage().then((existe)=>{
-
+                      console.log('operario existe',existe);
                       if(existe){
                         this.rootPage=this.tabsPage;
                       }else{
-                        //this.rootPage=LoginPage
-                        this.rootPage=this.tabsPage;
+                        this.rootPage=LoginPage
+                        //this.rootPage=this.tabsPage;
                       }
                     }); 
 

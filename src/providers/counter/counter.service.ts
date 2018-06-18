@@ -17,7 +17,7 @@ enum Codigo {
 
 export interface Comando {
 	tipo:number,
-	codigo: number,
+	codigo: Codigo.limpiar,
 	mensaje: string
 }
 

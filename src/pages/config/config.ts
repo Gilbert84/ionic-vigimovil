@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LoginPage } from '../index.pages'
 
 @IonicPage()
@@ -18,11 +18,10 @@ export class ConfigPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ConfigPage');
+
   }
 
   guardar(){
-    console.log('auto inicio',this.autoInicio);
     this.navCtrl.setRoot(LoginPage);
   }
 

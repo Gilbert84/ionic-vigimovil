@@ -1,17 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage,NavController,AlertController} from 'ionic-angular';
-import { VehiclePage, CounterPage , LoginPage} from '../index.pages'
-import { WebsocketService } from '../../providers/websocket/websocket.service';
+import { VehiclePage, CounterPage , LoginPage} from '../index.pages';
 import { CounterService } from '../../providers/counter/counter.service';
-import { UbicacionService } from '../../providers/plugins-nativos/plugins.service.index';
+import { OperarioService } from '../../providers/operario/operario.service';
+//import { UbicacionService } from '../../providers/plugins-nativos/plugins.service.index';
 
-
-
-enum Estado {
-	offline=0,
-	online=1,
-	netError=0
-}
 
 
 @IonicPage()
@@ -24,16 +17,26 @@ export class TabsPage {
   tab1:any=VehiclePage;
   tab2:any=CounterPage;
 
+  fechaHora:any;
 
   constructor(
               private navCtrl:NavController,
               private alertCtrl:AlertController,
-              private contadorService:CounterService
+              private contadorService:CounterService,
+              private operarioService:OperarioService
               ) {
                 
     this.tab1=VehiclePage;
     this.tab2=CounterPage;
     this.obtenerConteo();
+
+    console.log('nombre del operario:',this.operarioService.operario);
+
+
+    setInterval(()=>{
+      this.fechaHora= new Date();
+    },1000);
+
 
     
   }
@@ -61,8 +64,13 @@ export class TabsPage {
   }
 
   cerrarSession(){
+    //this.operarioService.borrarOperario();
     this.navCtrl.setRoot(LoginPage);
   }
+
+
+
+
 
 
 }

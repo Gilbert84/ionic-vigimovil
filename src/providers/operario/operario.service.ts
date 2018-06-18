@@ -104,6 +104,18 @@ export class OperarioService {
 
   }
 
+  borrarOperario(){
+    if(this.platform.is('cordova')){
+      this.storage.remove('id');
+      this.storage.remove('token');
+      this.storage.remove('operario');
+    }else{
+      localStorage.removeItem('id');
+      localStorage.removeItem('token');
+      localStorage.removeItem('operario');
+    }
+  }
+
 
 }
 

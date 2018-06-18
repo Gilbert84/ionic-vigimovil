@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Platform } from 'ionic-angular';
 
 //plugins que requieren permiso de uso
 import { TextToSpeech } from '../plugins.service.index';

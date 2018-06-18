@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CounterEventPage, QrScannerPage , } from './indexCounter.pages';
 //import { UserService } from '../../providers/user/user.service';
 import { CounterService , Comando } from '../../providers/counter/counter.service';
-import { TextoAVozService } from '../../providers/plugins-nativos/plugins.service.index';
+//import { TextoAVozService } from '../../providers/plugins-nativos/plugins.service.index';
 import { AudioConteo } from '../../interfaces/audioConteo.interface';
 
 
@@ -20,6 +20,8 @@ export class CounterPage {
   qrScannerPage=QrScannerPage;
   audioConteo:AudioConteo;
 
+  estadoPuerta1:boolean=false;
+  estadoPuerta2:boolean=false;
   
   gaugeType = "semi";
   //gaugeValue = 28.3;
@@ -40,11 +42,28 @@ export class CounterPage {
       public navParams: NavParams,
       //public io:SocketIoService,
       private contadorService:CounterService,
-      private textoAVozService:TextoAVozService
+      //private textoAVozService:TextoAVozService
     ){
       this.audioConteo = this.contadorService.audiosConteo[0];
 
   }
+
+  abrirOcerrarPuerta1(estado){
+    if(!estado){
+ 
+    }else{
+   
+    }
+  }
+
+  abrirOcerrarPuerta2(estado){
+    if(!estado){
+  
+    }else{
+ 
+    }
+  }
+
 
   openPage(page:any){
     this.navCtrl.push(page);
@@ -64,7 +83,7 @@ export class CounterPage {
 
   reiniciar(){
     this.contadorService.enviarComando(this.comando);
-    this.textoAVozService.decir('Reinicio contador de pasajeros');
+    //this.textoAVozService.decir('Reinicio contador de pasajeros');
   }
 
 

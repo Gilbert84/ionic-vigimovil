@@ -43,9 +43,10 @@ $colors: (
   tab2:       #BC35E8,
   tab3:       #FFF897,
   submenu:    #E84070,
-  tabs:       #0d3f13,
+  tabs:       #2f8ac7,
   save:       #23852e,
-  menu:       #241f72
+  menu:       #241f72,
+  pulse:      grey   
 );
 //$tabs-md-tab-padding-top:50px;
 //$tabs-md-tab-padding-active-top:50px;
@@ -56,7 +57,7 @@ $colors: (
 //$tabs-md-tab-color:                       color($colors, tabs); 
 $tabs-md-tab-opacity:0.4; // opacidad del tab inactivo
 $tabs-md-tab-font-size-active:1.6rem; //tamaño del texto
-$tabs-md-tab-icon-size:2.7rem; //tamaño icono
+$tabs-md-tab-icon-size:2.4rem; //tamaño icono
 
 
 
@@ -69,6 +70,9 @@ $fab-list-margin:20px;
 
 $toggle-md-disabled-opacity: 0.7; // opacidad de fonfo toogle
 
+$toolbar-md-height:40px;
+
+$tabs-ios-tab-min-height:20px;
 
 // App iOS Variables
 // --------------------------------------------------

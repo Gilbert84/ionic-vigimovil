@@ -8,9 +8,15 @@ export interface Dispositivo {
     categoria:string;
     id?:string;
     activo?:boolean;
+    img?:string;
 };
 
 export interface EstadoDispositivo{
     online:boolean;
     isActivo:boolean;
 };
+
+export interface Server{
+    online:boolean;
+    mensaje:string;
+}

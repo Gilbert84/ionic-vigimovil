@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Geolocation } from '../plugins.service.index';
-import { timestamp } from 'rxjs/operator/timestamp';
 import { Geoposition } from '@ionic-native/geolocation';
 
 @Injectable()

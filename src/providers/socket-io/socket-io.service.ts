@@ -1,22 +1,36 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ng-socket-io';
-import { EstadoDispositivo } from '../../interfaces/dispositivo.interface';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map'; 
+import { GlobalService } from '../../global/global.service';
+ 
 
 @Injectable()
 export class SocketIoService {
 
 
-  public online:boolean=false;
 
-  constructor( private io: Socket ) {
+  constructor( 
+    public io: Socket,
+    private GlobalService:GlobalService
+    ){
+
+
     this.io.on('connect',()=>{
-      this.online=true
+      this.GlobalService.crearMensaje('Servidor en linea',2000);
+      this.GlobalService.server={
+        online:true,
+        mensaje:'En linea'
+      }
+
+
     });
     this.io.on('disconnect',()=>{
-      this.online=false;
+      this.GlobalService.crearMensaje('Servidor fuera de linea',2000);
+      this.GlobalService.server={
+        online:false,
+        mensaje:'Fuera de linea'
+      }
     });
+    
   }
 //********************************************************* */
 //                    enviar informacion

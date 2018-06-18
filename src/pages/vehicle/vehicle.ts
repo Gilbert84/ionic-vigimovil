@@ -1,19 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { VehicleEventPage } from './indexVehicle.pages';
-import {  UbicacionService } from '../../providers/plugins-nativos/plugins.service.index';
-import { OperarioService } from '../../providers/operario/operario.service';
+import { UbicacionService } from '../../providers/plugins-nativos/plugins.service.index';
+//import { OperarioService } from '../../providers/operario/operario.service';
 
-/**
- * Generated class for the VehiclePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-
-//usuario jcx295
-//clave 1994,
 
 
 @IonicPage()
@@ -31,7 +21,7 @@ export class VehiclePage {
   constructor( 
               public navCtrl: NavController,
               public navParams: NavParams,
-              private operarioService:OperarioService,
+              //private operarioService:OperarioService,
               private ubicacion:UbicacionService
               ) {
 

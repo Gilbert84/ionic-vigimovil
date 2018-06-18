@@ -1,17 +1,26 @@
 <ion-header>
-        <ion-toolbar color="primary">
+        <ion-toolbar color="tabs">
 
 
                 <ion-buttons>
                     <button ion-button >
                         <ion-icon name="contact" style="font-size: 30px;"></ion-icon>
                         <ion-col>
-                                Gilberto
+                            {{this.operarioService.operario.nombre}}
                         </ion-col>
                     </button>
+
+                    <button ion-button>
+                        {{this.operarioService.operario.empresa.nombre}}
+                    </button>
+                    <button ion-button>
+                        <span style="font-size: 30px;">{{fechaHora | date:'H:mm:ss'}}</span>
+                    </button>
+                    <button ion-button>
+                        <span>{{fechaHora | date:'dd-MMM-yyyy'}}</span>
+                    </button>
                 </ion-buttons>
-         
-        
+            
                 <ion-buttons end>
                     <button ion-button icon-right large (click)="cerrarSession()">
                         <ion-icon name="exit" style="font-size: 30px;"></ion-icon>
@@ -20,7 +29,7 @@
             </ion-toolbar>
 
 </ion-header>
-<ion-content padding-vertical>
+<ion-content>
 
 
     <ion-tabs  tabsHighlight="true" tabsPlacement="top" color="primary">
@@ -30,9 +39,5 @@
 
 </ion-content>
 
-<ion-footer style="background-color: ghostwhite;">
-    
-
-</ion-footer>
 
 
