@@ -14,6 +14,7 @@ import { config } from '../config/socket-io.config';
 //ruta de plugins modules
 import { PluginsModule } from '../providers/plugins-nativos/plugins.module';
 import { AgmCoreModule } from '@agm/core';//mapas
+import { AgmDirectionModule } from 'agm-direction';   // agm-direction //http://robby570.tw/Agm-Direction-Docs/
 import { NgxGaugeModule } from 'ngx-gauge';//gauge
 
 //servicios
@@ -35,11 +36,13 @@ import {
           CounterPage,
           VehiclePage, 
           ConfigPage,
-          AcercaPage
+          AcercaPage,
+          DespachoPage
         } from '../pages/index.pages';
 //paginas locales o sub rutas
 import { CounterEventPage , QrScannerPage } from '../pages/counter/indexCounter.pages';
 import { VehicleEventPage } from '../pages/vehicle/indexVehicle.pages';
+import { ViajeService } from '../providers/viaje/viaje';
 
 
 
@@ -56,7 +59,8 @@ import { VehicleEventPage } from '../pages/vehicle/indexVehicle.pages';
     VehicleEventPage,
     QrScannerPage,
     ConfigPage,
-    AcercaPage
+    AcercaPage,
+    DespachoPage
   ],
   imports: [
     BrowserModule,
@@ -67,6 +71,7 @@ import { VehicleEventPage } from '../pages/vehicle/indexVehicle.pages';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB_m-EEppdQobezGoeB3wCFYWqSt8FcDqY'
     }),
+    AgmDirectionModule,
     PluginsModule,
     HttpClientModule
   ],
@@ -81,7 +86,8 @@ import { VehicleEventPage } from '../pages/vehicle/indexVehicle.pages';
     VehicleEventPage,
     QrScannerPage,
     ConfigPage,
-    AcercaPage
+    AcercaPage,
+    DespachoPage
   ],
   providers: [
     StatusBar,
@@ -92,7 +98,8 @@ import { VehicleEventPage } from '../pages/vehicle/indexVehicle.pages';
     SocketIoService,
     WebsocketService,
     DispositivoService,
-    GlobalService
+    GlobalService,
+    ViajeService
   ]
 })
 export class AppModule {}

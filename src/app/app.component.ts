@@ -21,6 +21,7 @@ import {
 import { OperarioService } from '../providers/operario/operario.service';
 import { DispositivoService } from '../providers/dispositivo/dispositivo.service';
 import { GlobalService } from '../global/global.service'
+import { SocketIoService } from '../providers/socket-io/socket-io.service';
 
 
 
@@ -54,6 +55,8 @@ export class MyApp {
               public globalService:GlobalService
               ) {
 
+
+
                 
                   platform.ready().then(() => {
 
@@ -61,11 +64,9 @@ export class MyApp {
 
                     splashScreen.hide();
 
-                    console.log('inicio aplicacion');
-
                       if(registrado){
                         this.permission.mostrarMensaje('dispositivo ya esta registrado',3000);
-
+                        this.dispositivo.conectarDispositivo();
                       }
                       else{
                         this.permission.mostrarMensaje('registrando dispositivo',3000);
@@ -75,7 +76,6 @@ export class MyApp {
 
 
                     this.operarioService.cargarStorage().then((existe)=>{
-                      console.log('operario existe',existe);
                       if(existe){
                         this.rootPage=this.tabsPage;
                       }else{

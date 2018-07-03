@@ -2,61 +2,60 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { SocketIoService } from '../socket-io/socket-io.service';
-import { Dispositivo } from '../../interfaces/dispositivo.interface';
 import { URL_SERVICIOS } from '../../config/url.servicios.config';
 import { GlobalService } from '../../global/global.service';
 
 import { Observable } from 'rxjs/Observable';
+import { Dispositivo } from '../../models/dispositivo.model';
+import { UbicacionService } from '../plugins-nativos/ubicacion/ubicacion.service';
+import { Geolocation } from '../plugins-nativos/plugins.service.index';
+import { Geoposition } from '@ionic-native/geolocation';
+
 
 @Injectable()
 export class DispositivoService {
 
-  
+  dispositivo:Dispositivo = new Dispositivo();
+  geoposicion:Geoposition;
+  cargando:boolean = true;
 
   constructor(
                 public io: SocketIoService,
                 public http: HttpClient,
                 private storage:Storage,
-                private globalService:GlobalService
+                private globalService:GlobalService,
+                private _ubicacionService: UbicacionService,
+                private geolocation:Geolocation,
               ){
+
+              if(this.geoposicion === undefined){
+                this.cargando= true;
+              }
 
       this.io.observarDespacho().subscribe((evento)=>{
 
+    });
+
+
+    this.io.observar('dispositivoMensajeTodos').subscribe((data) =>{
+      console.log('dispositivoMensajeTodos',data);
     });
   }
 
   registarDispositivo(){
 
-    console.log('dispositivo:',this.globalService.dispositivo);
+
     if(!this.globalService.server.online){
-      console.log('servidor fuera de linea');
+      //console.log('servidor fuera de linea');
       return;
     }
 
-    this.io.registrarDispositivo(this.globalService.dispositivo).then((resp:any)=>{
-      console.log('resp registro:',resp);
+    this.io.registrarDispositivo(this.dispositivo).then((resp:any)=>{
       this.guardarStorage(resp.server.dispositivo);
     }).catch((error)=>{
-      console.log('error registro:',error)
+       return new Error(error);
     });
 
-  }
-
-
-  crearDispositivo( dispositivo: Dispositivo ) {
-
-    let url = URL_SERVICIOS + '/dispositivo';
-
-    return this.http.post( url, dispositivo )
-              .map( (resp: any) => {
-
-                //swal('Usuario creado', usuario.email, 'success' );
-                return resp.usuario;
-              })
-              .catch( err => {
-                //swal( err.error.mensaje, err.error.errors.message, 'error' );
-                return Observable.throw( err );
-              });
   }
 
 
@@ -69,7 +68,8 @@ export class DispositivoService {
         this.storage.get('dispositivo').then((dispositivo)=>{
           if(dispositivo){
             console.log(dispositivo);
-            this.globalService.dispositivo=dispositivo;
+            this.dispositivo = dispositivo;
+
             resolve(true);//existe 
           }else{
             resolve(false);//no existe
@@ -79,7 +79,8 @@ export class DispositivoService {
       }else{
         //escritorio
         if ( localStorage.getItem('dispositivo')) {
-          this.globalService.dispositivo = JSON.parse( localStorage.getItem('dispositivo') );
+          this.dispositivo = JSON.parse( localStorage.getItem('dispositivo') );
+          console.log('obteniendo ')
           resolve(true);//si existe 
     
         } else {
@@ -106,9 +107,49 @@ export class DispositivoService {
 
     }
 
-    this.globalService.dispositivo = dispositivo;
+    this.dispositivo = dispositivo;
 
   }
+
+
+  conectarDispositivo(){
+
+    this.cargarStorage().then((existe)=>{
+      if (existe){
+        this.geolocation.getCurrentPosition().then((ubicacionInstante:Geoposition)=>{
+          this.dispositivo.geoposicion=ubicacionInstante;
+          this.geoposicion = ubicacionInstante;
+          this.geolocation.watchPosition().subscribe((geoposicion:Geoposition)=>{
+            this.dispositivo.geoposicion = geoposicion;
+            this.geoposicion = geoposicion;
+            this.cargando= false;
+            console.log('cambio ubicacion',this.dispositivo);
+
+            this.io.enviarEvento('dispositivoConectado',this.dispositivo).then((resp) =>{
+              console.log(resp);
+        
+            });
+
+          });
+    
+        }).catch((error)=>{
+          console.log(error);
+          return new Error('error')
+        });
+      }
+    });
+
+  }
+
+  obtenerUbicacion(){
+    this.geolocation.getCurrentPosition().then((geoposicion:Geoposition)=>{
+
+    }).catch((error)=>{
+      console.log(error);
+      return new Error('error');
+    });
+  }
+
 
 
 }

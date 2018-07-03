@@ -1,34 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Platform ,ToastController } from 'ionic-angular';
-import { Dispositivo ,Server } from '../interfaces/dispositivo.interface';
+import { Server } from '../interfaces/dispositivo.interface';
 
 @Injectable()
 export class GlobalService {
 
-    public dispositivo: Dispositivo;
-    public server:Server;
+    public server:Server = {
+        online:false,
+        mensaje:''
+    };
     public android:boolean;
 
     constructor(
             private platform:Platform,
             private toastCtrl:ToastController
         ){
-        this.dispositivo= {
-            uuid: '2',
-            mac:'mac',
-            imei:'imei',
-            imsi:'imsi',
-            iccid:'iccid',
-            nombre: 'K900',
-            categoria:'TABLET',
-            activo:false,
-            img:''
-        }
 
-        this.server={
-            online:false,
-            mensaje:''
-        }
+        this.server= this.server;
 
         this.obtenerEntorno();
     }

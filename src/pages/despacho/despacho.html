@@ -1,0 +1,124 @@
+<!--
+  Generated template for the DespachoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>despacho</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+    <ion-card text-center paddind>
+        <ion-card-header>
+            <ion-icon name="map" style="font-size: 30px;" color="info"></ion-icon>
+            <h1 color="primary">Despacho Asignado Actualmente</h1>
+        </ion-card-header>
+    </ion-card>
+
+
+    <ion-card text-center paddind *ngIf="!cargando">
+
+        <ion-row align-items-center>
+
+            <ion-col>
+                <ngx-gauge foregroundColor="green" [max]="gaugeMaxDistancia" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" [value]="viaje.ruta.distancia.value/1000 | number:'1.0-1'" label="Distancia" append="Km">
+                </ngx-gauge>
+            </ion-col>
+
+            <ion-col>
+                <ngx-gauge foregroundColor="green" [max]="gaugeMaxMinutos" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" [value]="viaje.ruta.duraccion.value/60 | number:'1.0-1'" label="Duraccion" append="min">
+                </ngx-gauge>
+            </ion-col>
+
+            <ion-col>
+                <ngx-gauge foregroundColor="red" [max]="gaugeMaxControles" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" [value]="viaje.ruta.puntosControl.length" label="Controles" [append]="gaugeAppendText">
+                </ngx-gauge>
+            </ion-col>
+
+        </ion-row>
+
+
+        <ion-card-header>
+
+            <h1 color="primary">{{viaje.ruta.nombre}}</h1>
+        </ion-card-header>
+
+        <ion-row align-items-center>
+
+            <ion-col>
+                <ion-item>
+                    <ion-icon name="information-circle" item-start large></ion-icon>
+                    <h2>Operario</h2>
+                    <p><strong>{{viaje.asignacion.operario.nombre}}</strong></p>
+                </ion-item>
+
+            </ion-col>
+
+            <ion-col>
+                <ion-item>
+                    <ion-icon name="information-circle" item-start large></ion-icon>
+                    <h2>Vehiculo</h2>
+                    <p><strong>{{viaje.asignacion.vehiculo.interno}}</strong></p>
+                </ion-item>
+
+            </ion-col>
+
+            <ion-col>
+                <ion-item>
+                    <ion-icon name="information-circle" item-start large></ion-icon>
+                    <h2>Fecha y Hora</h2>
+                    <p><strong>{{viaje.asignacion.fechaHora | date:'medium'}}</strong></p>
+                </ion-item>
+
+            </ion-col>
+        </ion-row>
+
+        <ion-row align-items-center>
+
+            <ion-col>
+                <ion-item>
+                    <ion-icon name="information-circle" item-start large></ion-icon>
+                    <h2>Contador pasajeros</h2>
+                    <p><strong> Reincio a ceros</strong></p>
+                </ion-item>
+
+            </ion-col>
+
+            <ion-col>
+                <ion-item>
+                    <ion-icon name="information-circle" item-start large></ion-icon>
+                    <h2>El viaje Inicia en</h2>
+                    <p><strong>{{viaje.ruta.origen.direccion}}</strong></p>
+                </ion-item>
+
+            </ion-col>
+
+            <ion-col>
+                <ion-item>
+                    <ion-icon name="information-circle" item-start large></ion-icon>
+                    <h2>El viaje termina en</h2>
+                    <p><strong>{{viaje.ruta.destino.direccion}}</strong></p>
+                </ion-item>
+
+            </ion-col>
+        </ion-row>
+
+        <ion-item>
+            <button ion-button block color="primary" (click)="iniciarViaje()">
+                        Continuar
+                    <ion-icon name="arrow-forward"></ion-icon>
+                </button>
+        </ion-item>
+
+
+    </ion-card>
+
+
+</ion-content>

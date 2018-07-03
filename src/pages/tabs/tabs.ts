@@ -4,6 +4,10 @@ import { VehiclePage, CounterPage , LoginPage} from '../index.pages';
 import { CounterService } from '../../providers/counter/counter.service';
 import { OperarioService } from '../../providers/operario/operario.service';
 //import { UbicacionService } from '../../providers/plugins-nativos/plugins.service.index';
+import { Socket } from 'ng-socket-io';
+import { SocketIoService } from '../../providers/socket-io/socket-io.service';
+import { ViajeService } from '../../providers/viaje/viaje';
+
 
 
 
@@ -19,19 +23,32 @@ export class TabsPage {
 
   fechaHora:any;
 
+  server = {
+    online:false,
+    mensaje:''
+  }
+
+  nuemeroViajes:number=0;
+
   constructor(
               private navCtrl:NavController,
               private alertCtrl:AlertController,
               private contadorService:CounterService,
-              private operarioService:OperarioService
+              private operarioService:OperarioService,
+              public io:Socket,
+              public SocketIoService:SocketIoService,
+              public viajeService:ViajeService
               ) {
+                this.nuemeroViajes= this.viajeService.viajes.length;
+                console.log('numero viajes',this.nuemeroViajes );
+                this.SocketIoService.observar('dispositivoMensajePrivado').subscribe((data) =>{
+                  console.log('nuevo app componnet',data);
+                });
+
                 
     this.tab1=VehiclePage;
     this.tab2=CounterPage;
     this.obtenerConteo();
-
-    console.log('nombre del operario:',this.operarioService.operario);
-
 
     setInterval(()=>{
       this.fechaHora= new Date();

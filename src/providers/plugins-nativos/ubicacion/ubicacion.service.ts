@@ -1,47 +1,42 @@
 import { Injectable } from '@angular/core';
 import { Geolocation } from '../plugins.service.index';
 import { Geoposition } from '@ionic-native/geolocation';
+import { DispositivoService } from '../../dispositivo/dispositivo.service';
 
 @Injectable()
 export class UbicacionService {
 
   geoposicion:Geoposition;
 
-  coords={
-    latitude:6.344620,
-    longitude:-75.562874
-  };
-  
 
   constructor(
-                private geolocation:Geolocation
+                private geolocation:Geolocation,
               ){
 
   }
 
 
-  iniciarUbicacion(){
+  // iniciarUbicacion(){
 
-    this.geolocation.getCurrentPosition().then((ubicacionInstante)=>{
-      this.geoposicion=ubicacionInstante;
-      this.geolocation.watchPosition().subscribe((geoposicion)=>{
-        this.geoposicion=geoposicion;
-        this.coords.latitude=geoposicion.coords.latitude;
-        this.coords.longitude=geoposicion.coords.longitude;
-        console.log(this.geoposicion.coords);
-      });
+  //   this.geolocation.getCurrentPosition().then((ubicacionInstante)=>{
+  //     this.geoposicion=ubicacionInstante;
+  //     this.geolocation.watchPosition().subscribe((geoposicion)=>{
+  //       this.geoposicion=geoposicion;
+  //     });
 
-    }).catch((error)=>{
-      console.log(error);
-    });
-  }
+  //   }).catch((error)=>{
+  //     console.log(error);
+  //     return new Error('error')
+  //   });
+  // }
 
-  obtenerUbicacion(){
-    this.geolocation.getCurrentPosition().then((ubicacion)=>{
+  // obtenerUbicacion(){
+  //   this.geolocation.getCurrentPosition().then((geoposicion)=>{
 
-    }).catch((error)=>{
-      console.log(error);
-    });
-  }
+  //   }).catch((error)=>{
+  //     console.log(error);
+  //     return new Error('error');
+  //   });
+  // }
 
 }

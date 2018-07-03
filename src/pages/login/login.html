@@ -1,41 +1,61 @@
-
 <ion-content padding>
 
-  <ion-slides pager>
+    <ion-slides pager>
 
-      <ion-slide>
+        <ion-slide>
 
-          <ion-toolbar>
-          </ion-toolbar>
+            <ion-toolbar>
+            </ion-toolbar>
 
-          <img src="assets/imgs/usuario.png" class="slide-image" />
-          <h2 class="slide-title">Ingrese su código</h2>
-          <p>Debe de ingresar su código de usuario</p>
+            <img src="assets/imgs/usuario.png" class="slide-image" />
+            <h2 class="slide-title">Ingrese su código</h2>
+            <p>Debe de ingresar su código de usuario</p>
 
-          <button ion-button block (click)="mostrarLogin()">
+            <button ion-button block (click)="mostrarLogin()">
             Ingresar
           </button>
 
-      </ion-slide>
+        </ion-slide>
 
 
-      <!-- Ultimo Slide -->
-      <ion-slide>
- 
-          <ion-card-content>
-            <img src="assets/imgs/check.jpg" class="slide-image" />
-          </ion-card-content>
-            
+        <!-- Ultimo Slide -->
+        <ion-slide>
 
-          <button ion-button large clear icon-right color="primary" (click)="ingresar()">
-            Continuar
+
+            <ion-card>
+                <ion-card text-center paddind>
+                    <ion-card-header>
+                        <ion-icon name="person"></ion-icon>
+                        <h1>{{operario.nombre}}</h1>
+                    </ion-card-header>
+                </ion-card>
+
+                <ion-item>
+                    <ion-icon name="information-circle" item-start large></ion-icon>
+                    <h2>Identificacion</h2>
+                    <p><strong>{{operario.identificacion}}</strong></p>
+                </ion-item>
+
+                <ion-item>
+                    <ion-icon name="information-circle" item-start large></ion-icon>
+                    <h2>Empresa</h2>
+                    <p><strong>{{operario.empresa.nombre}}</strong></p>
+                </ion-item>
+
+
+
+            </ion-card>
+
+
+            <button ion-button block color="primary" (click)="ingresar()">
+                Continuar
             <ion-icon name="arrow-forward"></ion-icon>
-          </button>
+            </button>
 
-      </ion-slide>
-      <!-- Fin del último slide -->
+        </ion-slide>
+        <!-- Fin del último slide -->
 
-  </ion-slides>
+    </ion-slides>
 
 
 </ion-content>
