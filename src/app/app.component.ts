@@ -21,7 +21,6 @@ import {
 import { OperarioService } from '../providers/operario/operario.service';
 import { DispositivoService } from '../providers/dispositivo/dispositivo.service';
 import { GlobalService } from '../global/global.service'
-import { SocketIoService } from '../providers/socket-io/socket-io.service';
 
 
 

@@ -48,6 +48,35 @@ export class Contador {
     }
 }
 
+export class Coords {
+
+    latitude:number =6.34475;
+    longitude: number = -75.563122;
+    accuracy: number =0;
+    altitude :number =0;
+    altitudeAccuracy:number =0;
+    heading: number=0;
+    speed:number=0;
+    constructor() {
+        this.latitude = this.latitude;
+        this.longitude = this.longitude; 
+        this.accuracy = this.accuracy;
+        this.altitude = this.altitude;
+        this.altitudeAccuracy = this.altitudeAccuracy;
+        this.heading = this.heading;
+        this.speed = this.speed;
+    }
+}
+
+export class Geoposicion {
+    coords:Coords;
+    timestamp:number;
+    constructor(){
+        this.coords = new Coords();
+        this.timestamp = this.timestamp || 0;
+    }
+}
+
 
 
 export class Dispositivo {
@@ -63,10 +92,14 @@ export class Dispositivo {
     public img?:string;
     public simcard1?:string;
     public simcard2?:string;
-    public geoposicion?:Geoposition;
+    public geoposicion?:Geoposition
     public socket_id?:string;
+    public disponible?:boolean;
+
+
 
     constructor () {
+
         this.uuid = this.uuid || '12345678';
         this.mac = this.mac || '28:30:32:48';
         this.imei = this.imei || 'imei';
@@ -75,11 +108,12 @@ export class Dispositivo {
         this.nombre = this.nombre || 'TABLET K900';
         this.categoria = this.categoria || 'TABLET';
         this._id = this._id;
-        this.activo = this.activo;
-        this.img = this.img;
-        this.simcard1 = this.simcard1;
-        this.simcard2 = this.simcard2;
-        this.geoposicion = this.geoposicion;
+        this.activo = this.activo || false;
+        this.img = this.img || '';
+        this.simcard1 = this.simcard1 || '';
+        this.simcard2 = this.simcard2 || '';
+        this.geoposicion = new Geoposicion();
         this.socket_id = this.socket_id;
+        this.disponible = this.disponible || true;
     }
 }

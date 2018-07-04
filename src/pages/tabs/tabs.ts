@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage,NavController,AlertController} from 'ionic-angular';
-import { VehiclePage, CounterPage , LoginPage} from '../index.pages';
+import { VehiclePage, CounterPage , LoginPage, DespachoPage} from '../index.pages';
 import { CounterService } from '../../providers/counter/counter.service';
 import { OperarioService } from '../../providers/operario/operario.service';
 //import { UbicacionService } from '../../providers/plugins-nativos/plugins.service.index';
 import { Socket } from 'ng-socket-io';
 import { SocketIoService } from '../../providers/socket-io/socket-io.service';
+import { ViajeService } from '../../providers/viaje/viaje.service';
 
 
 
@@ -20,6 +21,8 @@ export class TabsPage {
   tab1:any=VehiclePage;
   tab2:any=CounterPage;
 
+  viaje:any;
+
   fechaHora:any;
 
   server = {
@@ -27,15 +30,19 @@ export class TabsPage {
     mensaje:''
   }
 
+  nuemeroViajes:number=0;
+
   constructor(
               private navCtrl:NavController,
               private alertCtrl:AlertController,
               private contadorService:CounterService,
               private operarioService:OperarioService,
               public io:Socket,
-              public SocketIoService:SocketIoService
+              public SocketIoService:SocketIoService,
+              public viajeService:ViajeService
               ) {
-
+                this.nuemeroViajes= this.viajeService.viajes.length;
+                console.log('numero viajes',this.nuemeroViajes );
                 this.SocketIoService.observar('dispositivoMensajePrivado').subscribe((data) =>{
                   console.log('nuevo app componnet',data);
                 });
@@ -45,16 +52,15 @@ export class TabsPage {
     this.tab2=CounterPage;
     this.obtenerConteo();
 
-    console.log(io);
-
-
-    console.log('nombre del operario:',this.operarioService.operario);
-
-
     setInterval(()=>{
       this.fechaHora= new Date();
     },1000);
 
+    this.viajeService.cargarViaje().then((existe) =>{
+      if (existe){
+        this.viaje = this.viajeService.viaje;
+      }
+    });
 
     
   }
@@ -81,9 +87,40 @@ export class TabsPage {
     );
   }
 
-  cerrarSession(){
-    //this.operarioService.borrarOperario();
-    this.navCtrl.setRoot(LoginPage);
+  // cerrarSession(){
+  //   //this.operarioService.borrarOperario();
+  //   this.navCtrl.setRoot(LoginPage);
+  // }
+
+  terminarViaje() {
+    this.alertCtrl.create({
+      title: 'Terminar viaje',
+      subTitle:'esta seguro de terminar el viaje!!!',
+      message: 'Para continuar ingrese su clave de usuario',
+      inputs:[
+        {
+          name:'password',
+          placeholder:'codigo',
+          type:'password'
+        }
+      ],
+      buttons:[
+        {
+          text:'cancelar',
+          role:'cancel'
+        },
+        {
+          text:'Ingresar',
+          handler: () => {
+            this.viajeService.terminarViaje(this.viaje).then((resp)=>{
+              console.log('saliendo de ruta',resp);
+              this.navCtrl.setRoot(DespachoPage);
+            });
+            
+          }
+        }
+      ]
+    }).present();
   }
 
 

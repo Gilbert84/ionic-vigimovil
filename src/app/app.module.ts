@@ -14,6 +14,7 @@ import { config } from '../config/socket-io.config';
 //ruta de plugins modules
 import { PluginsModule } from '../providers/plugins-nativos/plugins.module';
 import { AgmCoreModule } from '@agm/core';//mapas
+import { AgmDirectionModule } from 'agm-direction';   // agm-direction //http://robby570.tw/Agm-Direction-Docs/
 import { NgxGaugeModule } from 'ngx-gauge';//gauge
 
 //servicios
@@ -41,7 +42,7 @@ import {
 //paginas locales o sub rutas
 import { CounterEventPage , QrScannerPage } from '../pages/counter/indexCounter.pages';
 import { VehicleEventPage } from '../pages/vehicle/indexVehicle.pages';
-import { ViajeService } from '../providers/viaje/viaje';
+import { ViajeService } from '../providers/viaje/viaje.service';
 
 
 
@@ -70,6 +71,7 @@ import { ViajeService } from '../providers/viaje/viaje';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB_m-EEppdQobezGoeB3wCFYWqSt8FcDqY'
     }),
+    AgmDirectionModule,
     PluginsModule,
     HttpClientModule
   ],

@@ -26,7 +26,7 @@
         </ion-buttons>
 
         <ion-buttons end>
-            <button ion-button icon-right large (click)="cerrarSession()">
+            <button ion-button icon-right large (click)="terminarViaje()">
                     <ion-icon name="exit" style="font-size: 30px;"></ion-icon>
             </button>
         </ion-buttons>
@@ -37,7 +37,7 @@
 
 
     <ion-tabs tabsHighlight="true" tabsPlacement="top" color="primary">
-        <ion-tab tabIcon="bus" tabTitle="Principal" [root]="tab1" tabBadge="3" tabBadgeStyle="danger"></ion-tab>
+        <ion-tab tabIcon="bus" tabTitle="Principal" [root]="tab1" [tabBadge]="nuemeroViajes" tabBadgeStyle="danger"></ion-tab>
         <ion-tab tabIcon="contacts" tabTitle="Pasajeros" [root]="tab2" tabBadge="5" tabBadgeStyle="danger"></ion-tab>
     </ion-tabs>
 
