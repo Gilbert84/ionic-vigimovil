@@ -96,7 +96,8 @@ export class LoginPage implements AfterViewInit{
         },
         {
           name:'password',
-          placeholder:'codigo'
+          placeholder:'codigo',
+          type:'password'
         }
       ],
       buttons:[

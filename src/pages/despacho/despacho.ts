@@ -4,7 +4,8 @@ import { OperarioService } from '../../providers/operario/operario.service';
 import { DispositivoService } from '../../providers/dispositivo/dispositivo.service';
 import { SocketIoService } from '../../providers/socket-io/socket-io.service';
 import { TabsPage } from '../tabs/tabs';
-import { ViajeService } from '../../providers/viaje/viaje';
+import { ViajeService } from '../../providers/viaje/viaje.service';
+import { LoginPage } from '../index.pages';
 
 /**
  * Generated class for the DespachoPage page.
@@ -47,20 +48,9 @@ export class DespachoPage {
         this.cargando= true;
       }
 
-      let loading;
-      if(this.cargando){
-        loading=this.loadingCtrl.create({
-          content:"esperando nuevo viaje espere por favor..."
-        });
-    
-        loading.present();
-      }
-
       this.SocketIoService.observar('dispositivoMensajePrivado').subscribe((data) =>{
         this.viaje = data.viaje;
         this.cargando = false;
-        loading.dismiss();
-        console.log('nuevo mensaje despacho',this.viaje);
       });
 
     //this.io.enviarEvento('obtenerViajeOperario',this.operarioService.operario).then();
@@ -83,13 +73,18 @@ export class DespachoPage {
         {
           text:'Continuar',
           handler: () =>{
-            this.viajeService.guardarStorage(this.viaje);
-            this.navCtrl.push(TabsPage);
+            this.viajeService.guardarViaje(this.viaje);
+            this.navCtrl.setRoot(TabsPage);
           }
         }
       ]
     }).present();
 
+  }
+
+  salirLogin() {
+    this.operarioService.borrarOperario();
+    this.navCtrl.setRoot(LoginPage);
   }
 
 }

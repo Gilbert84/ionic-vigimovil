@@ -42,7 +42,7 @@ import {
 //paginas locales o sub rutas
 import { CounterEventPage , QrScannerPage } from '../pages/counter/indexCounter.pages';
 import { VehicleEventPage } from '../pages/vehicle/indexVehicle.pages';
-import { ViajeService } from '../providers/viaje/viaje';
+import { ViajeService } from '../providers/viaje/viaje.service';
 
 
 

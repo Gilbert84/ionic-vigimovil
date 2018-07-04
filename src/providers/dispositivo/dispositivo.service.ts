@@ -6,10 +6,11 @@ import { URL_SERVICIOS } from '../../config/url.servicios.config';
 import { GlobalService } from '../../global/global.service';
 
 import { Observable } from 'rxjs/Observable';
-import { Dispositivo } from '../../models/dispositivo.model';
+import { Dispositivo, Geoposicion } from '../../models/dispositivo.model';
 import { UbicacionService } from '../plugins-nativos/ubicacion/ubicacion.service';
 import { Geolocation } from '../plugins-nativos/plugins.service.index';
 import { Geoposition } from '@ionic-native/geolocation';
+import { Subscription } from 'rxjs/Subscription';
 
 
 @Injectable()
@@ -19,12 +20,13 @@ export class DispositivoService {
   geoposicion:Geoposition;
   cargando:boolean = true;
 
+  observarGeoposicion:Subscription;
+
   constructor(
                 public io: SocketIoService,
                 public http: HttpClient,
                 private storage:Storage,
                 private globalService:GlobalService,
-                private _ubicacionService: UbicacionService,
                 private geolocation:Geolocation,
               ){
 
@@ -119,21 +121,30 @@ export class DispositivoService {
         this.geolocation.getCurrentPosition().then((ubicacionInstante:Geoposition)=>{
           this.dispositivo.geoposicion=ubicacionInstante;
           this.geoposicion = ubicacionInstante;
-          this.geolocation.watchPosition().subscribe((geoposicion:Geoposition)=>{
-            this.dispositivo.geoposicion = geoposicion;
-            this.geoposicion = geoposicion;
+          this.observarGeoposicion = this.geolocation.watchPosition().subscribe((geoposicion:Geoposition)=>{
+            if( geoposicion.coords.latitude === undefined || geoposicion.coords.longitude === undefined) {
+              geoposicion.coords.latitude = 0;
+              geoposicion.coords.longitude = 0;
+            }else{
+              this.dispositivo.geoposicion = geoposicion;
+              this.geoposicion = geoposicion;
+            }
             this.cargando= false;
-            console.log('cambio ubicacion',this.dispositivo);
+            console.log('cambio ubicacion',geoposicion);
 
             this.io.enviarEvento('dispositivoConectado',this.dispositivo).then((resp) =>{
-              console.log(resp);
-        
+              //console.log(resp);
             });
 
+          },(error) =>{
+            //console.log('error en ubicacion',error);
+            
           });
     
+        },(err)=>{
+          console.log('error en ubicacion 2',err);
         }).catch((error)=>{
-          console.log(error);
+          //console.log('error get en ubicacion',error);
           return new Error('error')
         });
       }

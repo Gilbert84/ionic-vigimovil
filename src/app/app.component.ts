@@ -16,12 +16,13 @@ import {
           LoginPage,
           TabsPage, 
           ConfigPage,
-          AcercaPage
+          AcercaPage,
+          DespachoPage
         } from '../pages/index.pages';
 import { OperarioService } from '../providers/operario/operario.service';
 import { DispositivoService } from '../providers/dispositivo/dispositivo.service';
 import { GlobalService } from '../global/global.service'
-import { SocketIoService } from '../providers/socket-io/socket-io.service';
+import { ViajeService } from '../providers/viaje/viaje.service';
 
 
 
@@ -38,6 +39,7 @@ export class MyApp {
   tabsPage:any =TabsPage;
   configPage:any=ConfigPage;
   acercaPage:any=AcercaPage;
+  despachoPage:any = DespachoPage;
 
   android:boolean;
 
@@ -52,7 +54,8 @@ export class MyApp {
               public menuCtrl:MenuController,
               private alertCtrl:AlertController,
               private loadingCtrl:LoadingController,
-              public globalService:GlobalService
+              public globalService:GlobalService,
+              public viajeService:ViajeService
               ) {
 
 
@@ -75,11 +78,18 @@ export class MyApp {
                     });
 
 
-                    this.operarioService.cargarStorage().then((existe)=>{
-                      if(existe){
-                        this.rootPage=this.tabsPage;
+                    this.operarioService.cargarStorage().then((operariExiste)=>{
+                      if(operariExiste){
+                        this.viajeService.cargarViaje().then((viajeExiste) => {
+                          if(viajeExiste){
+                            this.rootPage=this.tabsPage;
+                          }else{
+                            this.rootPage=this.despachoPage;
+                          }
+                        });
+              
                       }else{
-                        this.rootPage=LoginPage
+                        this.rootPage=LoginPage;
                         //this.rootPage=this.tabsPage;
                       }
                     }); 
