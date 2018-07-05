@@ -6,20 +6,25 @@
 -->
 <ion-header>
 
-    <ion-navbar>
-        <ion-title>despacho</ion-title>
+    <ion-navbar text-center color="primary">
+        <ion-title>Despacho Asignado Actualmente</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="salirLogin()">
+                <ion-col>Salir</ion-col>
+                <ion-icon name="exit"></ion-icon>
+                </button>
+        </ion-buttons>
     </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="card-background-page">
 
-    <ion-card text-center paddind>
-        <ion-card-header>
-            <ion-icon name="map" style="font-size: 30px;" color="info"></ion-icon>
-            <h1 color="primary">Despacho Asignado Actualmente</h1>
-        </ion-card-header>
+    <ion-card *ngIf="cargando">
+        <img src="assets/imgs/card-map.png" />
+        <div class="card-title" color="primary">No hay asignaciones de ruta</div>
+        <div class="card-subtitle">por favor espere mientras se le asigna una nueva</div>
     </ion-card>
 
 

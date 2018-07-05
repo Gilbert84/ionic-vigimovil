@@ -16,11 +16,14 @@ import {
           LoginPage,
           TabsPage, 
           ConfigPage,
-          AcercaPage
+          AcercaPage,
+          DespachoPage
         } from '../pages/index.pages';
 import { OperarioService } from '../providers/operario/operario.service';
 import { DispositivoService } from '../providers/dispositivo/dispositivo.service';
 import { GlobalService } from '../global/global.service'
+import { ViajeService } from '../providers/viaje/viaje.service';
+import { SocketIoService } from '../providers/socket-io/socket-io.service';
 
 
 
@@ -37,54 +40,30 @@ export class MyApp {
   tabsPage:any =TabsPage;
   configPage:any=ConfigPage;
   acercaPage:any=AcercaPage;
+  despachoPage:any = DespachoPage;
 
   android:boolean;
 
 
 
   constructor(
-              platform: Platform,
-              splashScreen: SplashScreen,
-              private operarioService:OperarioService,
-              private dispositivo:DispositivoService,
-              private permission:PermissionService,
-              public menuCtrl:MenuController,
-              private alertCtrl:AlertController,
-              private loadingCtrl:LoadingController,
-              public globalService:GlobalService
-              ) {
-
-
-
+    platform: Platform,
+    splashScreen: SplashScreen,
+    private operarioService:OperarioService,
+    private dispositivo:DispositivoService,
+    private permission:PermissionService,
+    public menuCtrl:MenuController,
+    private alertCtrl:AlertController,
+    private loadingCtrl:LoadingController,
+    public globalService:GlobalService,
+    public viajeService:ViajeService,
+    public socketIoService:SocketIoService
+    ) {
                 
-                  platform.ready().then(() => {
-
-                    dispositivo.cargarStorage().then((registrado)=>{
-
-                    splashScreen.hide();
-
-                      if(registrado){
-                        this.permission.mostrarMensaje('dispositivo ya esta registrado',3000);
-                        this.dispositivo.conectarDispositivo();
-                      }
-                      else{
-                        this.permission.mostrarMensaje('registrando dispositivo',3000);
-                        this.dispositivo.registarDispositivo();
-                      }
-                    });
-
-
-                    this.operarioService.cargarStorage().then((existe)=>{
-                      if(existe){
-                        this.rootPage=this.tabsPage;
-                      }else{
-                        this.rootPage=LoginPage
-                        //this.rootPage=this.tabsPage;
-                      }
-                    }); 
-
-
-                });
+      platform.ready().then(() => {
+        this.iniciarServicios();
+        splashScreen.hide();
+      });
   }
 
   loginAdmin(page:any){
@@ -155,6 +134,54 @@ export class MyApp {
 
   closeMenuSettings(){
     this.menuCtrl.close();
+  }
+
+  iniciarServicios() {
+    this.dispositivo.cargarStorage().then((registrado)=>{
+      if(registrado){
+        this.permission.mostrarMensaje('Caragando configuraciones iniciales',8000);
+        this.dispositivo.conectarDispositivo();
+        this.iniciarObservadores();
+      }
+      else{
+        this.permission.mostrarMensaje('Registrando dispositivo',8000);
+        this.dispositivo.registarDispositivo().then((dispositivoCreado)=>{
+          if(dispositivoCreado){
+            this.dispositivo.conectarDispositivo();
+            this.iniciarObservadores();
+          }
+        });
+      }
+    });
+
+
+    this.operarioService.cargarStorage().then((operariExiste)=>{
+      if(operariExiste){
+        this.viajeService.cargarViaje().then((viajeExiste) => {
+          if(viajeExiste){
+            this.rootPage=this.tabsPage;
+          }else{
+            this.rootPage=this.despachoPage;
+          }
+        });
+
+      }else{
+        this.rootPage=LoginPage;
+      }
+    }); 
+  }
+
+
+  iniciarObservadores() {
+    this.socketIoService.observar('dispositivoMensajePrivado').subscribe((data) =>{
+      console.log('dispositivoMensajePrivado',data);
+      this.viajeService.guardarViaje(data.viaje);
+    });
+
+    this.socketIoService.observar('dispositivoMensajeTodos').subscribe((data) =>{
+      console.log('dispositivoMensajeTodos',data);
+    });
+
   }
 
 

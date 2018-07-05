@@ -10,6 +10,7 @@ import { Dispositivo, Geoposicion } from '../../models/dispositivo.model';
 import { UbicacionService } from '../plugins-nativos/ubicacion/ubicacion.service';
 import { Geolocation } from '../plugins-nativos/plugins.service.index';
 import { Geoposition } from '@ionic-native/geolocation';
+import { Subscription } from 'rxjs/Subscription';
 
 
 @Injectable()
@@ -18,6 +19,8 @@ export class DispositivoService {
   dispositivo:Dispositivo = new Dispositivo();
   geoposicion:Geoposition;
   cargando:boolean = true;
+
+  observarGeoposicion:Subscription;
 
   constructor(
                 public io: SocketIoService,
@@ -43,18 +46,18 @@ export class DispositivoService {
 
   registarDispositivo(){
 
-
-    if(!this.globalService.server.online){
-      //console.log('servidor fuera de linea');
-      return;
-    }
-
-    this.io.registrarDispositivo(this.dispositivo).then((resp:any)=>{
-      this.guardarStorage(resp.server.dispositivo);
-    }).catch((error)=>{
-       return new Error(error);
-    });
-
+    return new Promise( (resolve,reject) =>{
+      if(!this.globalService.server.online){
+        resolve(false);
+      }
+  
+      this.io.registrarDispositivo(this.dispositivo).then((resp:any)=>{
+        this.guardarStorage(resp.server.dispositivo);
+        resolve(true);
+      }).catch((error)=>{
+         reject(error);
+      });
+    })
   }
 
 
@@ -118,7 +121,7 @@ export class DispositivoService {
         this.geolocation.getCurrentPosition().then((ubicacionInstante:Geoposition)=>{
           this.dispositivo.geoposicion=ubicacionInstante;
           this.geoposicion = ubicacionInstante;
-          this.geolocation.watchPosition().subscribe((geoposicion:Geoposition)=>{
+          this.observarGeoposicion = this.geolocation.watchPosition().subscribe((geoposicion:Geoposition)=>{
             if( geoposicion.coords.latitude === undefined || geoposicion.coords.longitude === undefined) {
               geoposicion.coords.latitude = 0;
               geoposicion.coords.longitude = 0;
@@ -127,7 +130,7 @@ export class DispositivoService {
               this.geoposicion = geoposicion;
             }
             this.cargando= false;
-            console.log('cambio ubicacion',this.dispositivo);
+            console.log('cambio ubicacion',geoposicion);
 
             this.io.enviarEvento('dispositivoConectado',this.dispositivo).then((resp) =>{
               //console.log(resp);

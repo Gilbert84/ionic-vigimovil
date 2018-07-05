@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage,NavController,AlertController} from 'ionic-angular';
+import { IonicPage,NavController,AlertController, LoadingController} from 'ionic-angular';
 import { VehiclePage, CounterPage , LoginPage, DespachoPage} from '../index.pages';
 import { CounterService } from '../../providers/counter/counter.service';
 import { OperarioService } from '../../providers/operario/operario.service';
@@ -22,6 +22,7 @@ export class TabsPage {
   tab2:any=CounterPage;
 
   viaje:any;
+  operario:any;
 
   fechaHora:any;
 
@@ -39,7 +40,8 @@ export class TabsPage {
               private operarioService:OperarioService,
               public io:Socket,
               public SocketIoService:SocketIoService,
-              public viajeService:ViajeService
+              public viajeService:ViajeService,
+              private loadingCtrl:LoadingController,
               ) {
                 this.nuemeroViajes= this.viajeService.viajes.length;
                 console.log('numero viajes',this.nuemeroViajes );
@@ -56,12 +58,26 @@ export class TabsPage {
       this.fechaHora= new Date();
     },1000);
 
-    this.viajeService.cargarViaje().then((existe) =>{
-      if (existe){
-        this.viaje = this.viajeService.viaje;
+    this.operarioService.cargarStorage().then((operarioExiste) =>{
+      if (operarioExiste){
+        this.operario = this.operarioService.operario;
+        console.log('operario',this.operario);
       }
     });
 
+    this.viajeService.cargarViaje().then((viajeExiste) =>{
+      if (viajeExiste){
+        this.viaje = this.viajeService.viaje;
+        console.log('viaje caragado',this.viaje);
+      }else{
+        this.navCtrl.setRoot(DespachoPage);
+      }
+    });
+    // this.viajeService.cargarViajes().then((viajesExiste) =>{
+    //   if (viajesExiste){
+    //     this.nuemeroViajes = this.viajeService.viajes.length;
+    //   }
+    // });
     
   }
 
@@ -87,21 +103,16 @@ export class TabsPage {
     );
   }
 
-  // cerrarSession(){
-  //   //this.operarioService.borrarOperario();
-  //   this.navCtrl.setRoot(LoginPage);
-  // }
-
   terminarViaje() {
     this.alertCtrl.create({
       title: 'Terminar viaje',
       subTitle:'esta seguro de terminar el viaje!!!',
-      message: 'Para continuar ingrese su clave de usuario',
+      message: 'Para continuar ingrese su identificacion',
       inputs:[
         {
-          name:'password',
-          placeholder:'codigo',
-          type:'password'
+          name:'identificacion',
+          placeholder:'Numero cedula',
+          type:'number'
         }
       ],
       buttons:[
@@ -110,13 +121,10 @@ export class TabsPage {
           role:'cancel'
         },
         {
-          text:'Ingresar',
-          handler: () => {
-            this.viajeService.terminarViaje(this.viaje).then((resp)=>{
-              console.log('saliendo de ruta',resp);
-              this.navCtrl.setRoot(DespachoPage);
-            });
-            
+          text:'Aceptar',
+          handler: (resp) => {
+            let cc= parseInt(resp.identificacion);
+            this.validarIdentificacion(cc);
           }
         }
       ]
@@ -124,7 +132,27 @@ export class TabsPage {
   }
 
 
+  validarIdentificacion(cc:number) {
+    let loading=this.loadingCtrl.create({
+      content:"Verificando espere por favor..."
+    });
 
+    loading.present();
+    if( cc === this.operario.identificacion){
+      loading.dismiss();
+      this.viajeService.terminarViaje(this.viaje).then((resp)=>{
+        this.viajeService.borrarViaje();
+        this.navCtrl.setRoot(DespachoPage);
+      });
+    }else {
+      loading.dismiss();
+      this.alertCtrl.create({
+        title: 'Identificacion Incorrecta',
+        subTitle:"Por favor verifique que este bien digitada",
+        buttons:["Ok!"]
+      }).present();
+    }
+  }
 
 
 

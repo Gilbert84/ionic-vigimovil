@@ -57,15 +57,13 @@ export class VehiclePage {
               private viajeService:ViajeService
               ) {
 
-              if (this.viaje === undefined){
-                this.cargando = true;
-              }
-
               this.viajeService.cargarViaje().then((existe) =>{
                 if (existe){
                   this.cargando= false;
                   this.viaje = this.viajeService.viaje;
                   console.log('viaje actual:',this.viaje);
+                }else{
+                  this.navCtrl.setRoot(DespachoPage);
                 }
               });
 

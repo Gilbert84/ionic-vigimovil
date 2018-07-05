@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { OperarioService } from '../../providers/operario/operario.service';
 import { DispositivoService } from '../../providers/dispositivo/dispositivo.service';
 import { SocketIoService } from '../../providers/socket-io/socket-io.service';
 import { TabsPage } from '../tabs/tabs';
 import { ViajeService } from '../../providers/viaje/viaje.service';
+import { LoginPage } from '../index.pages';
 
 /**
  * Generated class for the DespachoPage page.
@@ -36,23 +37,22 @@ export class DespachoPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    private loadingCtrl:LoadingController,
     public _dispositivoService:DispositivoService,
     public operarioService: OperarioService,
     public SocketIoService:SocketIoService,
     public viajeService:ViajeService,
     public alertCtrl:AlertController) 
     {
-      if(this.viaje === undefined){
-        this.cargando= true;
-      }
-
-      this.SocketIoService.observar('dispositivoMensajePrivado').subscribe((data) =>{
-        this.viaje = data.viaje;
-        this.cargando = false;
+     console.log('constructor despacho');
+      this.viajeService.cargarViaje().then((existeViaje) =>{
+        if(existeViaje){
+          this.cargando = false;
+          this.viaje = this.viajeService.viaje;
+          console.log('viaje leido',this.viaje);
+        }else{
+          console.log('else');
+        }
       });
-
-    //this.io.enviarEvento('obtenerViajeOperario',this.operarioService.operario).then();
   }
 
   ionViewDidLoad() {
@@ -72,13 +72,17 @@ export class DespachoPage {
         {
           text:'Continuar',
           handler: () =>{
-            this.viajeService.guardarViaje(this.viaje);
             this.navCtrl.setRoot(TabsPage);
           }
         }
       ]
     }).present();
 
+  }
+
+  salirLogin() {
+    this.operarioService.borrarOperario();
+    this.navCtrl.setRoot(LoginPage);
   }
 
 }

@@ -25,8 +25,9 @@ export class ViajeService {
 
   }
 
-  agregarViaje(viaje) {
-    this.viajes.push(viaje);
+  agregarViaje(nuevoViaje) {
+    this.viajes.push(nuevoViaje);
+    this.guardarViajesPorOperario(this.viajes);
   }
 
   cargarViaje() {
@@ -37,7 +38,7 @@ export class ViajeService {
         //dispositivo
         this.storage.get('viaje').then((viaje)=>{
           if(viaje){
-            console.log(viaje);
+            console.log('viaje leido:',viaje);
             this.viaje = viaje;
 
             resolve(true);//existe 
@@ -100,16 +101,16 @@ export class ViajeService {
     }else{
       //escritorio
       localStorage.setItem('viaje', JSON.stringify(viaje) );
-      console.log(viaje);
+      console.log('viaje leido del storage',viaje);
 
     }
 
     this.viaje = viaje;
-    this.agregarViaje(this.viaje);
+    //this.agregarViaje(this.viaje);
 
   }
 
-  guardarViajes( viajes ) {
+  guardarViajesPorOperario( viajes ) {
 
     if(this.globalService.android){
       //dispositivo
@@ -135,6 +136,14 @@ export class ViajeService {
       });
     });
 
+  }
+
+  borrarViaje(){
+    if(this.globalService.android){
+      this.storage.remove('viaje');
+    }else{
+      localStorage.removeItem('viaje');
+    }
   }
 
 
