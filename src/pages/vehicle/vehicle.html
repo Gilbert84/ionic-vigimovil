@@ -1,0 +1,47 @@
+<ion-header>
+
+</ion-header>
+
+
+<ion-content paddind>
+
+
+    <ion-fab bottom left>
+        <button ion-fab color="dark"><ion-icon name="arrow-dropright"></ion-icon></button>
+        <ion-fab-list side="right">
+            <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
+            <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
+            <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
+            <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
+            <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
+
+        </ion-fab-list>
+    </ion-fab>
+
+
+    <div ion-col col-12 style="width: 100%; height: 100%;">
+        <agm-map *ngIf="!dispositivoService.cargando" [latitude]="dispositivoService.geoposicion.coords.latitude" [longitude]="dispositivoService.geoposicion.coords.longitude" [zoom]="zoom" maxZoom="19" minZoom="14" mapTypeControl="true" streetViewControl="false"
+            keyboardShortcuts="false" disableDoubleClickZoom="true">
+            <agm-marker [latitude]="dispositivoService.geoposicion.coords.latitude" [longitude]="dispositivoService.geoposicion.coords.longitude" iconUrl="assets/icon/bus.png">
+            </agm-marker>
+
+            <agm-direction *ngIf="!cargando" [origin]="viaje.ruta.origen" [destination]="viaje.ruta.destino" [waypoints]="viaje.ruta.puntosRef" [visible]="visible" [renderOptions]="renderOptions" [markerOptions]="markerOptions" (onChange)="cambiarPuntosRef($event)">
+            </agm-direction>
+        </agm-map>
+    </div>
+
+</ion-content>
+
+<ion-footer style="background-color: ghostwhite">
+
+    <ion-row align-items-center *ngIf="!dispositivoService.cargando">
+        <ion-col class="col-border">
+            <div style="color:blue;">Hora de incio:{{viaje.fechaHoraInicio | date:'mediumTime'}}</div>
+        </ion-col>
+        <ion-col class="col-border">
+            <div style="color:blue;">Ruta:{{viaje.ruta.nombre}}</div>
+        </ion-col>
+
+    </ion-row>
+
+</ion-footer>
