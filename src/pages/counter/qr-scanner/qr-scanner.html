@@ -1,0 +1,16 @@
+<ion-content padding>
+
+    <button (click)="scan()" ion-button color="dark" large>Escanear Codigo QR</button>
+    <button (click)="cambiarCamara()" ion-button color="dark" large>{{estadoCamara}}</button>
+    <div>
+      {{qrScannerService.historial[0] | json }}
+    </div>
+
+</ion-content>
+    
+<ion-footer>
+      <ion-navbar color="primary">
+        <ion-title>Regresar</ion-title>
+      </ion-navbar>
+    
+</ion-footer>
