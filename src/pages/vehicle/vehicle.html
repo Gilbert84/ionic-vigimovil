@@ -1,0 +1,60 @@
+<ion-header>
+
+</ion-header>
+
+
+<ion-content paddind>
+
+
+    <ion-fab bottom left>
+        <button ion-fab color="dark"><ion-icon name="arrow-dropright"></ion-icon></button>
+        <ion-fab-list side="right">
+            <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
+            <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
+            <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
+            <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
+            <button ion-fab mini (click)="openPage(vehicleEventPage)"><ion-icon name="aperture"></ion-icon></button>
+
+        </ion-fab-list>
+    </ion-fab>
+
+    
+    <ion-row style="width: 100%; height: 100%;">
+        <ion-col col-10 style="width: 100%; height: 100%;">
+        <agm-map [latitude]="dispositivoService.geoposicion.coords.latitude" [longitude]="dispositivoService.geoposicion.coords.longitude" [zoom]="zoom" maxZoom="19" minZoom="14" mapTypeControl="true" streetViewControl="false"
+            keyboardShortcuts="false" disableDoubleClickZoom="true">
+            <agm-marker [latitude]="dispositivoService.geoposicion.coords.latitude" [longitude]="dispositivoService.geoposicion.coords.longitude" iconUrl="assets/icon/bus.png">
+            </agm-marker>
+
+            <agm-direction [origin]="viaje.ruta.origen" [destination]="viaje.ruta.destino" [waypoints]="viaje.ruta.puntosRef" [visible]="visible" [renderOptions]="renderOptions" [markerOptions]="markerOptions" (onChange)="cambiarPuntosRef($event)">
+            </agm-direction>
+        </agm-map>
+        </ion-col>
+        <ion-col col-2>
+            <ion-list reorder="true" style="width: 100%; height: 100%;">
+                    <ion-item  class="col-border">
+                        <ngx-gauge foregroundColor="red" [max]="gaugeMax" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" [value]="dispositivoService.geoposicion.coords.speed" label="Velocidad" [append]="gaugeAppendText">
+                        </ngx-gauge>
+                    </ion-item>
+                    <ion-item class="col-border">
+                            <ngx-gauge foregroundColor="green" [max]="gaugeMax" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" value="20" label="Distancia" [append]="gaugeAppendText">
+                            </ngx-gauge>
+                    </ion-item>
+                    <ion-item class="col-border">
+                            <ngx-gauge foregroundColor="blue" [max]="gaugeMax" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" value="30" label="tiempo c" [append]="gaugeAppendText">
+                            </ngx-gauge>
+                    </ion-item>
+                    <ion-item class="col-border">
+                            <ngx-gauge foregroundColor="orange" [max]="gaugeMax" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" value="40" label="ditancia" [append]="gaugeAppendText">
+                            </ngx-gauge>
+                    </ion-item>
+                    <ion-item class="col-border">
+                            <ngx-gauge foregroundColor="yellow" [max]="gaugeMax" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" value="50" label="otro" [append]="gaugeAppendText">
+                            </ngx-gauge>
+                    </ion-item>
+            </ion-list>
+        </ion-col>
+    </ion-row>
+
+
+</ion-content>
