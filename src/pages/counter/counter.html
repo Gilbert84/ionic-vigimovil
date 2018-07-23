@@ -1,0 +1,110 @@
+<ion-content paddind>
+    <ion-fab bottom left>
+        <button ion-fab color="dark"><ion-icon name="arrow-dropright"></ion-icon></button>
+        <ion-fab-list side="right">
+            <button ion-fab mini (click)="openPage(qrScannerPage)"><ion-icon name="qr-scanner"></ion-icon></button>
+            <button ion-fab mini (click)="openPage(counterEventPage)"><ion-icon name="walk"></ion-icon></button>
+        </ion-fab-list>
+    </ion-fab>
+
+    <ion-fab right top padding>
+        <button ion-fab color="dark" (click)="ON_OFF_Audio()">
+      <ion-icon *ngIf="audioConteo.reproducir" name="volume-up" color="secondary"></ion-icon>
+      <ion-icon *ngIf="!audioConteo.reproducir" name="volume-off" color="danger"></ion-icon>
+    </button>
+    </ion-fab>
+
+    <ion-card text-center paddind>
+        <ion-card-header>
+            <ion-icon style="font-size: 30px;" color="secondary" name="people"></ion-icon>
+            <h1>Registro actual de pasajeros</h1>
+        </ion-card-header>
+
+        <ion-row align-items-center>
+
+            <ion-col>
+                <img *ngIf="estadoPuerta1" src="assets/icon/svg/puerta-abierta.svg" height="70px" />
+                <img *ngIf="!estadoPuerta1" src="assets/icon/svg/puerta-cerrada.svg" height="70px" /> Puerta Delantera
+            </ion-col>
+
+            <ion-col>
+                <ngx-gauge foregroundColor="green" [max]="gaugeMax" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" [value]="contadorService.registroActual.ch1In" label="Ingresos" [append]="gaugeAppendText">
+                </ngx-gauge>
+            </ion-col>
+
+            <ion-col>
+                <ngx-gauge foregroundColor="red" [max]="gaugeMax" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" [value]="contadorService.registroActual.ch1Out" label="Salidas" [append]="gaugeAppendText">
+                </ngx-gauge>
+            </ion-col>
+
+            <ion-col>
+                <!-- <ion-card-content>
+                    <ion-card-title>
+                        <ion-label color="primary" stacked>Cerrar-Abrir</ion-label>
+                    </ion-card-title>
+                    <button ion-button color="light"><ion-toggle color="secondary" [(ngModel)]="estadoPuerta1" (click)="abrirOcerrarPuerta2(estadoPuerta1)"></ion-toggle></button>
+                </ion-card-content> -->
+            </ion-col>
+
+        </ion-row>
+    </ion-card>
+
+    <ion-card text-center paddind>
+        <ion-row align-items-center>
+            <ion-col>
+                <img *ngIf="estadoPuerta2" src="assets/icon/svg/puerta-abierta.svg" height="70px" />
+                <img *ngIf="!estadoPuerta2" src="assets/icon/svg/puerta-cerrada.svg" height="70px" /> Puerta Trasera
+            </ion-col>
+
+            <ion-col>
+                <ngx-gauge foregroundColor="red" [max]="gaugeMax" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" [value]="contadorService.registroActual.ch2In" label="Ingresos" [append]="gaugeAppendText">
+                </ngx-gauge>
+            </ion-col>
+
+            <ion-col>
+                <ngx-gauge foregroundColor="green" [max]="gaugeMax" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" [value]="contadorService.registroActual.ch2Out" label="Salidas" [append]="gaugeAppendText">
+                </ngx-gauge>
+            </ion-col>
+
+            <ion-col>
+
+                <!-- <ion-card-content>
+                    <ion-card-title>
+                        <ion-label color="primary" stacked>Cerrar-Abrir</ion-label>
+                    </ion-card-title>
+                    <button ion-button color="light"><ion-toggle color="secondary" [(ngModel)]="estadoPuerta2" (click)="abrirOcerrarPuerta2(estadoPuerta2)"></ion-toggle></button>
+                </ion-card-content> -->
+
+            </ion-col>
+        </ion-row>
+    </ion-card>
+
+    <ion-card text-center paddind>
+        <ion-row align-items-center>
+            <ion-col>
+                <div>
+                    <ion-icon name="walk" style="font-size: 50px;"></ion-icon>
+                </div>
+                Pasajeros
+            </ion-col>
+
+            <ion-col>
+                <ngx-gauge foregroundColor="green" [max]="gaugeMax" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" [value]="contadorService.registroActual.totalIn" label="Total Ingresos" [append]="gaugeAppendText">
+                </ngx-gauge>
+            </ion-col>
+
+            <ion-col>
+                <ngx-gauge foregroundColor="red" [max]="gaugeMax" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" [value]="contadorService.registroActual.totalOut" label="Total Salidas" [append]="gaugeAppendText">
+                </ngx-gauge>
+            </ion-col>
+            <ion-col>
+                <ngx-gauge foregroundColor="green" [max]="gaugeMax" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" [value]="contadorService.registroActual.totalIn + contadorService.registroActual.totalOut" label="A Bordo" [append]="gaugeAppendText">
+                </ngx-gauge>
+            </ion-col>
+        </ion-row>
+    </ion-card>
+
+
+
+
+</ion-content>

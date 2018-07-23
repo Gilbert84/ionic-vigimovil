@@ -1,0 +1,62 @@
+
+<ion-header>
+
+  <ion-navbar color="dark">
+    <ion-title>Acerca de la aplicacion</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list>
+
+        <ion-item>
+          <ion-label color="primary" stacked>Auto Inicio</ion-label>
+          <ion-label>Inicia la aplicacion cada vez que hay una actualizacion</ion-label>
+          <ion-toggle [(ngModel)]="autoInicio" disabled></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+            <ion-label color="primary" stacked>Segundo plano</ion-label>
+            <ion-label>Mantiene la aplicacion activa</ion-label>
+            <ion-toggle [(ngModel)]="autoInicio" disabled></ion-toggle>
+          </ion-item>
+
+    
+        <ion-item>
+            <ion-label color="primary" stacked>Version de la aplicacion</ion-label>
+            <ion-input value="0.0.5" disabled></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label color="primary" stacked>Nombre del dispositivo</ion-label>
+            <ion-input value="K900" disabled></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label color="primary" stacked>Desarrollado por :</ion-label>
+            <ion-input value="BELLANITA GROUP" disabled></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label color="primary" stacked>Ingeniero :</ion-label>
+            <ion-input value="Gilberto Hernandez" disabled></ion-input>
+        </ion-item>
+        
+      
+      </ion-list>
+</ion-content>
+
+<ion-footer>
+    <ion-navbar color="dark">
+
+        <ion-buttons>
+            <button ion-button icon-left (click)="salir()">
+                <ion-icon name="exit"></ion-icon>
+                Salir
+            </button>
+        </ion-buttons>
+
+    </ion-navbar> 
+</ion-footer>
