@@ -7,6 +7,7 @@ import { OperarioService } from '../../providers/operario/operario.service';
 import { Socket } from 'ng-socket-io';
 import { SocketIoService } from '../../providers/socket-io/socket-io.service';
 import { ViajeService } from '../../providers/viaje/viaje.service';
+import { ConfigService } from '../../providers/config/config.service';
 
 
 
@@ -42,6 +43,7 @@ export class TabsPage {
               public SocketIoService:SocketIoService,
               public viajeService:ViajeService,
               private loadingCtrl:LoadingController,
+              private configService:ConfigService
               ) {
                 this.SocketIoService.observar('dispositivoMensajePrivado').subscribe((data) =>{
                   console.log('nuevo app componnet',data);
@@ -50,7 +52,7 @@ export class TabsPage {
                 
     this.tab1=VehiclePage;
     this.tab2=CounterPage;
-    this.obtenerConteo();
+
 
     setInterval(()=>{
       this.fechaHora= new Date();
@@ -69,10 +71,22 @@ export class TabsPage {
         this.navCtrl.setRoot(DespachoPage);
       }
     });
+
+    this.configService.cargarConfiguracion().then( (existe) =>{
+      if(existe) {
+        this.iniciarConteo();
+      }else{
+        this.alertCtrl.create({
+					title: 'Advertencia!!!',
+					subTitle:"No se ha configurado la ip del contador",
+					buttons:["Ok!"]
+				}).present();        
+      }
+    })
   }
 
 
-  obtenerConteo(){
+  iniciarConteo(){
     this.contadorService.contador
       .subscribe(
       (data)=>{

@@ -66,7 +66,6 @@ export class DespachoPage {
           text:'Continuar',
           handler: () =>{
             this.viajeService.iniciarViaje().then((resp) =>{
-              console.log('iniciar viaje', resp);
               this.navCtrl.setRoot(TabsPage);
             });
           }
@@ -77,7 +76,7 @@ export class DespachoPage {
   }
 
   salirLogin() {
-    this.operarioService.borrarOperario();
+
     this.alertCtrl.create({
       title: 'Esta seguro de cerrar cession!',
       buttons:[
@@ -88,9 +87,8 @@ export class DespachoPage {
         {
           text:'Aceptar',
           handler: () =>{
-            this.viajeService.iniciarViaje().then(() =>{
-              this.navCtrl.setRoot(LoginPage);
-            });
+            this.operarioService.borrarOperario();
+            this.navCtrl.setRoot(LoginPage);
           }
         }
       ]

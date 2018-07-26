@@ -6,6 +6,7 @@ export { BarcodeScanner } from '@ionic-native/barcode-scanner';
 export { AndroidFullScreen } from '@ionic-native/android-full-screen';
 export { StatusBar } from '@ionic-native/status-bar';
 export { TextToSpeech } from '@ionic-native/text-to-speech';
+export { Device } from '@ionic-native/device';
 
 
 

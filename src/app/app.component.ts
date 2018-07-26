@@ -126,7 +126,7 @@ export class MyApp {
   }
 
   openPageSettings(page:any){
-    console.log('salir');
+    //console.log('salir');
     this.rootPage=page;
     this.menuCtrl.close();
   }

@@ -32,11 +32,12 @@ export class ViajeService {
     return new Observable ((nuevoViaje)=>{
       this.socketIoService.observar('asignarNuevoViaje').subscribe((data) =>{
         let viaje = data.viaje;
-        this.tiempoDisponibleIncioViaje();
+        console.log(data);
         this.guardarViaje(viaje).then(()=>{
           nuevoViaje.next(viaje);
-          this.socketIoService.enviarEvento('confirmacionAsignacion',{ok:true,dispositivo:'viaje recibido'}).then((res) =>{
-            console.log(res);
+          this.tiempoDisponibleIncioViaje();
+          this.socketIoService.enviarEvento('confirmacionAsignacion',{ok:true,para:data.de, mensaje: 'mensaje recibido'}).then((res) =>{
+            //console.log(res);
           });
         });
 

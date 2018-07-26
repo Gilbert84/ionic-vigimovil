@@ -18,7 +18,8 @@ import {
   AndroidFullScreen,
   StatusBar,
   TextToSpeech,
-  TextoAVozService
+  TextoAVozService,
+  Device
 } from './plugins.service.index';
 
 
@@ -39,7 +40,8 @@ import {
     AndroidFullScreen,
     StatusBar,
     TextToSpeech,
-    TextoAVozService
+    TextoAVozService,
+    Device
   ],
   declarations: []
 })

@@ -7,6 +7,7 @@ import { GlobalService } from '../../global/global.service';
 import { Dispositivo, Geoposicion } from '../../models/dispositivo.model';
 import { Geolocation } from '../plugins-nativos/plugins.service.index';
 import { Geoposition } from '@ionic-native/geolocation';
+import { Device } from '@ionic-native/device';
 import { Subscription } from 'rxjs/Subscription';
 
 
@@ -25,16 +26,17 @@ export class DispositivoService {
                 private storage:Storage,
                 private globalService:GlobalService,
                 private geolocation:Geolocation,
+                private device:Device
               ){
+
+                console.log(device);
 
     this.io.observarDespacho().subscribe((evento)=>{
 
     });
 
-    console.log('dispositivo',this.dispositivo);
-
     this.io.observar('dispositivoMensajeTodos').subscribe((data) =>{
-      console.log('dispositivoMensajeTodos',data);
+
     });
   }
 
@@ -44,7 +46,13 @@ export class DispositivoService {
       if(!this.globalService.server.online){
         resolve(false);
       }
-  
+
+      if (this.globalService.android){
+        this.dispositivo.uuid = this.device.uuid;
+        this.dispositivo.iccid = this.device.serial;
+      } 
+
+
       this.io.registrarDispositivo(this.dispositivo).then((resp:any)=>{
         this.guardarStorage(resp.server.dispositivo);
         resolve(true);
@@ -69,7 +77,6 @@ export class DispositivoService {
             resolve(false);//no existe
           }
         });
-
       }else{
         //escritorio
         if ( localStorage.getItem('dispositivo')) {
@@ -91,12 +98,9 @@ export class DispositivoService {
     if(this.globalService.android){
       //dispositivo
       this.storage.set('dispositivo',JSON.stringify(dispositivo));
-
     }else{
       //escritorio
       localStorage.setItem('dispositivo', JSON.stringify(dispositivo) );
-      console.log(dispositivo);
-
     }
 
     this.dispositivo = dispositivo;

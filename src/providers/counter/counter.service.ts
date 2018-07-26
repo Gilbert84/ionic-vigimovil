@@ -3,8 +3,7 @@ import { Subject } from 'rxjs/Rx';
 import { WebsocketService } from '../websocket/websocket.service'
 import { AUDIOS_CONTEO } from '../../data/data.audiosConteo';
 import { AudioConteo } from '../../interfaces/audioConteo.interface';
-
-const URL = 'ws://192.168.205.10:81';
+import { ConfigService } from '../config/config.service';
 
 
 enum Codigo {
@@ -34,23 +33,26 @@ export class CounterService {
 	audio = new Audio();
 	audioTiempo:any;
 
-	constructor(private wsService:WebsocketService) {
+	constructor(private wsService:WebsocketService,
+				private configService:ConfigService) {
 
-		this.audiosConteo=AUDIOS_CONTEO.slice(0);//clonamos la data
+					this.audiosConteo=AUDIOS_CONTEO.slice(0);//clonamos la data
+					this.contador = <Subject<Comando>>this.wsService
+						.connect(this.configService.configuracion.contadorIp)
+						.map((response: MessageEvent): Comando => {
+							let data = JSON.parse(response.data);
+							 let d = new Date();
+							 let hora=d.getHours()+":"+d.getMinutes()+":"+d.getSeconds(); 
+							data.hora=hora;
+							 this.registroActual=data;
+							 this.registros.push(data);
+							 this.reproducirAudio(this.audiosConteo[0]);			
+							return data;
+					});
 
-		this.contador = <Subject<Comando>>this.wsService
-			.connect(URL)
-			.map((response: MessageEvent): Comando => {
-				let data = JSON.parse(response.data);
-		 		let d = new Date();
-		 		let hora=d.getHours()+":"+d.getMinutes()+":"+d.getSeconds(); 
-				data.hora=hora;
-		 		this.registroActual=data;
-		 		this.registros.push(data);
-		 		this.reproducirAudio(this.audiosConteo[0]);			
-				console.log('resgistros: ',this.registros);
-				return data;
-		});
+	}
+
+	iniciarContador(){
 
 	}
 
@@ -64,7 +66,6 @@ export class CounterService {
 		this.audio.play();
 		//audioConteo.reproducir = true;
 		this.audioTiempo = setTimeout(()=>{ 
-			console.log('nuevo evento') , 
 			audioConteo.duracion * 1000
 		}); 
 
