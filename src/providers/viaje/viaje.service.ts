@@ -4,6 +4,9 @@ import { Injectable } from '@angular/core';
 import { GlobalService } from '../../global/global.service';
 import { SocketIoService } from '../socket-io/socket-io.service';
 import { Observable } from 'rxjs/Observable';
+import { CounterService } from '../counter/counter.service';
+import { EventoContador, Codigo } from '../../models/registro-contador.model';
+import { Viaje } from '../../models/viaje.model';
 
 /*
   Generated class for the ViajeProvider provider.
@@ -14,15 +17,24 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class ViajeService {
 
-  public viaje:any;
-  viajes=[];
+  public viaje:Viaje = new Viaje();
+  public viajes:Viaje[]=[];
   public existe:boolean=false;
+
+  public tiempoDisponible:number=0;
+
+	private comando:EventoContador={
+    tipo: 1,
+    codigo: Codigo.limpiar,
+    mensaje:'limpiar'
+  }
 
   constructor(
     public http: HttpClient,
     public storage: Storage,
     public globalService:GlobalService,
-    public socketIoService:SocketIoService
+    public socketIoService:SocketIoService,
+    public counterService:CounterService
   ) {
 
   }
@@ -30,16 +42,19 @@ export class ViajeService {
     return new Observable ((nuevoViaje)=>{
       this.socketIoService.observar('asignarNuevoViaje').subscribe((data) =>{
         let viaje = data.viaje;
+        console.log(data);
         this.guardarViaje(viaje).then(()=>{
           nuevoViaje.next(viaje);
+          this.tiempoDisponibleIncioViaje();
+          this.socketIoService.enviarEvento('confirmacionAsignacion',{ok:true,para:data.de, mensaje: 'mensaje recibido'}).then((res) =>{
+            //console.log(res);
+          });
         });
 
         switch(viaje.estado.codigo){
           case 0:
             this.globalService.crearAlerta('Nuevo despacho','Un nuevo despacho a sido asignado a este vehiculo');
-            this.socketIoService.enviarEvento('confirmacionAsignacion',{ok:true,mensaje:'viaje recibido'}).then((res) =>{
-              console.log(res);
-            });
+            this.cuentaAtras();
             break;
           case 1:
             this.globalService.crearAlerta('Alerta','El despacho a sido actualizado');
@@ -48,6 +63,31 @@ export class ViajeService {
       });
     });
   }
+
+  tiempoDisponibleIncioViaje() {
+    let horas_seg_Actualizado = new Date().getHours() * 3600;
+    let min_segundos_Actualizado = new Date().getMinutes() * 60;
+    let total_seg_actualizado = horas_seg_Actualizado + min_segundos_Actualizado + new Date().getSeconds();
+    let horas_seg_horaSalida = new Date(this.viaje.horaSalidaAsignada).getHours() * 3600;
+    let min_seg_horaSalida = new Date(this.viaje.horaSalidaAsignada).getMinutes()  * 60;
+    let total_seg_horaSalida = horas_seg_horaSalida + min_seg_horaSalida + new Date(this.viaje.horaSalidaAsignada).getSeconds();
+    this.tiempoDisponible = total_seg_horaSalida - total_seg_actualizado;
+  }
+
+  cuentaAtras() {
+
+    const salir = setInterval(() => {
+      if (this.tiempoDisponible <= 1) {
+        this.tiempoDisponible = 0;
+        clearInterval(salir);
+      }else{
+        this.tiempoDisponible-= 1;
+      }
+    }, 1000);
+  }
+
+
+
 
   agregarViaje(nuevoViaje) {
     this.viajes.push(nuevoViaje);
@@ -62,8 +102,7 @@ export class ViajeService {
         //dispositivo
         this.storage.get('viaje').then((viaje)=>{
           if(viaje){
-            console.log('viaje leido:',viaje);
-            this.viaje = viaje;
+            this.viaje =JSON.parse(  viaje );
             this.existe= true;
             resolve(true);//existe 
           }else{
@@ -94,11 +133,9 @@ export class ViajeService {
 
       if(this.globalService.android){
         //dispositivo
-        this.storage.get('viajes').then((viaje)=>{
-          if(viaje){
-            console.log(viaje);
-            this.viaje = viaje;
-
+        this.storage.get('viajes').then((viajes)=>{
+          if(viajes){
+            this.viaje = JSON.parse( viajes );
             resolve(true);//existe 
           }else{
             resolve(false);//no existe
@@ -168,6 +205,7 @@ export class ViajeService {
       this.actualizarViajeEstado(this.viaje._id,this.viaje.estado).then((resp) =>{
         this.guardarViaje(this.viaje).then(()=>{
           resolve(resp);
+          this.counterService.enviarComando(this.comando);
         });
       });
     });
@@ -178,6 +216,11 @@ export class ViajeService {
       viaje.horallegadaOperario = new Date();
       viaje.estado.mensaje='Terminado';
       viaje.estado.codigo=4;
+      viaje.pasajeros.salidasPuerta1 = this.counterService.registroActual.ch1Out;
+      viaje.pasajeros.salidasPuerta2 = this.counterService.registroActual.ch1Out;
+      viaje.pasajeros.ingresosPuerta1 = this.counterService.registroActual.ch1In;
+      viaje.pasajeros.ingresosPuerta2 = this.counterService.registroActual.ch2In;
+      
       this.actualizarViaje(viaje).then((resp) =>{
         this.borrarViaje().then((estaGuardado) =>{
           if(estaGuardado){

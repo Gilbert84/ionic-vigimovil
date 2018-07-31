@@ -3,55 +3,43 @@ import { Subject } from 'rxjs/Rx';
 import { WebsocketService } from '../websocket/websocket.service'
 import { AUDIOS_CONTEO } from '../../data/data.audiosConteo';
 import { AudioConteo } from '../../interfaces/audioConteo.interface';
-
-const URL = 'ws://192.168.205.10:81';
-
-
-enum Codigo {
-	limpiar=1,
-	reiniciar=2
-}
-
-
-
-
-export interface Comando {
-	tipo:number,
-	codigo: Codigo.limpiar,
-	mensaje: string
-}
-
+import { ConfigService } from '../config/config.service';
+import { RegistroContador , EventoContador ,Codigo } from '../../models/registro-contador.model';
 
 
 
 @Injectable()
 export class CounterService {
 
-	public contador: Subject<Comando>;
-	public registros=[];
-	public registroActual={};
+	public contador: Subject<RegistroContador> = new Subject();
+	public registros:RegistroContador[]=[];
+	public registroActual:RegistroContador= new RegistroContador();
 	public audiosConteo:AudioConteo[]=[];
 	audio = new Audio();
 	audioTiempo:any;
 
-	constructor(private wsService:WebsocketService) {
+	constructor(
+		private wsService:WebsocketService,
+		private configService:ConfigService) {
 
 		this.audiosConteo=AUDIOS_CONTEO.slice(0);//clonamos la data
+	}
 
-		this.contador = <Subject<Comando>>this.wsService
-			.connect(URL)
-			.map((response: MessageEvent): Comando => {
-				let data = JSON.parse(response.data);
-		 		let d = new Date();
-		 		let hora=d.getHours()+":"+d.getMinutes()+":"+d.getSeconds(); 
-				data.hora=hora;
-		 		this.registroActual=data;
-		 		this.registros.push(data);
-		 		this.reproducirAudio(this.audiosConteo[0]);			
-				console.log('resgistros: ',this.registros);
-				return data;
+	conectarContador(){
+		console.log(this.configService.configuracion.contadorIp);
+		
+		return this.contador = <Subject<RegistroContador>>this.wsService
+			.connect(this.configService.configuracion.contadorIp)
+			.map((response: MessageEvent)=> {
+				let registro:RegistroContador = JSON.parse(response.data);
+				console.log(registro);
+				this.registroActual= new RegistroContador({...registro,hora:new Date()});
+				//this.registroActual= registro;
+				//this.registros.push(data);
+				this.reproducirAudio(this.audiosConteo[0]);
+				this.enviarComando(new EventoContador({tipo:1,codigo:Codigo.recibido,mensaje:'ok'}));			
+				return this.registroActual;
 		});
-
 	}
 
 
@@ -64,7 +52,6 @@ export class CounterService {
 		this.audio.play();
 		//audioConteo.reproducir = true;
 		this.audioTiempo = setTimeout(()=>{ 
-			console.log('nuevo evento') , 
 			audioConteo.duracion * 1000
 		}); 
 
@@ -86,7 +73,7 @@ export class CounterService {
 
 
 	enviarComando(cmd){
-		console.log('nuevo mensaje de la tablet al dispositivo: ', cmd);
+		//console.log('nuevo mensaje de la tablet al dispositivo: ', cmd);
 		this.contador.next(cmd);
 	}
 	// private fechaHora(){

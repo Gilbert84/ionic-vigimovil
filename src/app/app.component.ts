@@ -25,11 +25,6 @@ import { GlobalService } from '../global/global.service'
 import { ViajeService } from '../providers/viaje/viaje.service';
 import { SocketIoService } from '../providers/socket-io/socket-io.service';
 
-import { Socket } from 'ng-socket-io';
-
-
-
-
 
 
 @Component({
@@ -38,7 +33,8 @@ import { Socket } from 'ng-socket-io';
 export class MyApp {
 
 
-  rootPage:any = LoginPage;
+  rootPage:any;
+  loginPage:any = LoginPage;
   tabsPage:any =TabsPage;
   configPage:any=ConfigPage;
   acercaPage:any=AcercaPage;
@@ -131,7 +127,7 @@ export class MyApp {
   }
 
   openPageSettings(page:any){
-    console.log('salir');
+    //console.log('salir');
     this.rootPage=page;
     this.menuCtrl.close();
   }
@@ -147,7 +143,7 @@ export class MyApp {
   iniciarServicios() {
     this.dispositivo.cargarStorage().then((registrado)=>{
       if(registrado){
-        this.permission.mostrarMensaje('Caragando configuraciones iniciales',2000);
+        this.permission.mostrarMensaje('Cargando configuraciones iniciales',2000);
         this.dispositivo.conectarDispositivo();
         this.iniciarObservadores();
       }
@@ -166,20 +162,24 @@ export class MyApp {
     this.operarioService.cargarStorage().then((operarioExiste)=>{
       this.viajeService.cargarViaje().then((viajeExiste) => {
         if(!operarioExiste){
-          this.rootPage=LoginPage;
+          this.rootPage=this.loginPage;
           return;
-        }
-        if(viajeExiste && operarioExiste){
-          let estado = this.viajeService.viaje.estado.codigo;
-          if(estado === 0 || estado === 1){
-            //nuevo
-            this.rootPage=this.despachoPage;
+        }else{
+          if(viajeExiste){
+            let estado = this.viajeService.viaje.estado.codigo;
+            if(estado === 0 || estado === 1){
+              //nuevo
+              this.rootPage=this.despachoPage;
+            }
+            else if (estado ===3){
+              //en ruta
+              this.rootPage=this.tabsPage;
+            }
+          }else{
+            this.rootPage = this.despachoPage;
           }
-          else if (estado ===3){
-            //en ruta
-            this.rootPage=this.tabsPage;
-          }
         }
+
       });
     }); 
   }

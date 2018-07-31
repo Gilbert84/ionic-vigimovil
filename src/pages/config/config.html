@@ -1,60 +1,65 @@
-
 <ion-header>
 
-  <ion-navbar color="primary">
-    <ion-title>configuracion de la aplicacion</ion-title>
-    <ion-buttons end>
-        <button ion-button icon-right large (click)="cerrarSession()">
+    <ion-navbar color="primary">
+        <ion-title>configuracion de la aplicacion</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-right large (click)="salir()">
             <ion-icon name="exit"></ion-icon>
             </button>
-    </ion-buttons>
-  </ion-navbar>
+        </ion-buttons>
+    </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-  <ion-list>
+    <ion-list>
 
-    <ion-item>
-      <ion-label  color="primary" stacked>Auto Inicio</ion-label>
-      <ion-label>Habilita o desabilita el Auto inicio</ion-label>
-      <ion-toggle [(ngModel)]="autoInicio"></ion-toggle>
-    </ion-item>
+        <ion-item>
+            <ion-label color="primary" stacked>Auto Inicio</ion-label>
+            <ion-label>Habilita o desabilita el Auto inicio</ion-label>
+            <ion-toggle [(ngModel)]="configuracion.autoInicio"></ion-toggle>
+        </ion-item>
 
-    <ion-item>
-      <ion-label  color="primary" stacked>Area Metropolitana</ion-label>
-      <ion-label>Habilita o desabilita el envio de informacion</ion-label>
-      <ion-toggle [(ngModel)]="areaMetropool"></ion-toggle>
-    </ion-item>
+        <ion-item>
+            <ion-label color="primary" stacked>Area Metropolitana</ion-label>
+            <ion-label>Habilita o desabilita el envio de informacion</ion-label>
+            <ion-toggle [(ngModel)]="configuracion.areaMetropool"></ion-toggle>
+        </ion-item>
 
-    <ion-item>
-        <ion-label color="primary" stacked>direccion server</ion-label>
-        <ion-input type="url" placeholder="Ingrese la url o la ip"></ion-input>
-    </ion-item>
-    <ion-item>
-        <ion-label color="primary" stacked>direccion ip contador</ion-label>
-        <ion-input type="url" placeholder="Ingrese la url o la ip"></ion-input>
-    </ion-item>
+        <ion-item>
+            <ion-label color="primary" stacked>direccion server</ion-label>
+            <ion-input [(ngModel)]="configuracion.serverIp" name="serverIp" type="url" placeholder="Ingrese la url o la ip"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label color="primary" stacked>direccion ip contador</ion-label>
+            <ion-input [(ngModel)]="configuracion.contadorIp" name="contadorIp" type="url" placeholder="Ingrese la url o la ip"></ion-input>
+        </ion-item>
 
-    <ion-item>
-        <ion-label color="primary" stacked>Api key</ion-label>
-        <ion-input type="password" placeholder="Ingrese la llave"></ion-input>
-    </ion-item>
-    
-  
-  </ion-list>
+        <ion-item>
+            <ion-label color="primary" stacked>Api key</ion-label>
+            <ion-input [(ngModel)]="configuracion.apykey" name="apykey" type="password" placeholder="Ingrese la llave"></ion-input>
+        </ion-item>
+
+
+    </ion-list>
 </ion-content>
 
 <ion-footer>
+    <ion-buttons>
+        <button ion-button icon-left (click)="guardar()">
+                    <ion-icon name="done-all"></ion-icon>
+                    Validar y guardar
+                </button>
+    </ion-buttons>
     <ion-navbar color="save">
 
-          <ion-buttons>
-              <button ion-button icon-left (click)="guardar()">
-                  <ion-icon name="done-all"></ion-icon>
-                  Guardar y Salir
+        <ion-buttons>
+            <button ion-button icon-left (click)="salir()">
+                  <ion-icon name="exit"></ion-icon>
+                  Salir
               </button>
-          </ion-buttons>
+        </ion-buttons>
 
-      </ion-navbar> 
+    </ion-navbar>
 </ion-footer>

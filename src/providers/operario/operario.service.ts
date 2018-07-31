@@ -2,18 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { Platform } from 'ionic-angular';
-import { Operario} from '../../interfaces/operario.interface';
-import { URL_SERVICIOS } from '../../config/url.servicios.config';
+import { Operario } from '../../models/operario.model';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { ConfigService } from '../config/config.service';
 
 @Injectable()
 export class OperarioService {
 
   id:string=null;
   token: string;
-  operario: Operario;
+  operario: Operario = new Operario();
 
 
 //todo lo que haya en el constructor hay que proveerlo en app-modules
@@ -21,13 +21,14 @@ export class OperarioService {
                private storage:Storage,
                private platform: Platform,
                public http: HttpClient,
+               private configService:ConfigService
              ){
   }
 
   login( operario: Operario) {
 
 
-    let url = URL_SERVICIOS + '/operario/login';
+    let url = this.configService.configuracion.serverIp + '/operario/login';
  
       return this.http.post( url, operario )
                 .map( (resp: any) => {
@@ -48,7 +49,7 @@ export class OperarioService {
           if(operario){
             this.id=operario.id;
             this.token=operario.token;
-            this.operario=operario;
+            this.operario= JSON.parse( operario );
             resolve(true);
           }else{
             resolve(false);

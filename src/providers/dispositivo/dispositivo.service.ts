@@ -7,6 +7,7 @@ import { GlobalService } from '../../global/global.service';
 import { Dispositivo, Geoposicion } from '../../models/dispositivo.model';
 import { Geolocation } from '../plugins-nativos/plugins.service.index';
 import { Geoposition } from '@ionic-native/geolocation';
+import { Device } from '@ionic-native/device';
 import { Subscription } from 'rxjs/Subscription';
 
 
@@ -20,21 +21,21 @@ export class DispositivoService {
   observarGeoposicion:Subscription;
 
   constructor(
-                public io: SocketIoService,
+                public socketIoService: SocketIoService,
                 public http: HttpClient,
                 private storage:Storage,
                 private globalService:GlobalService,
                 private geolocation:Geolocation,
+                private device:Device
               ){
 
-    this.io.observarDespacho().subscribe((evento)=>{
+
+    this.socketIoService.observarDespacho().subscribe((evento)=>{
 
     });
 
-    console.log('dispositivo',this.dispositivo);
+    this.socketIoService.observar('dispositivoMensajeTodos').subscribe((data) =>{
 
-    this.io.observar('dispositivoMensajeTodos').subscribe((data) =>{
-      console.log('dispositivoMensajeTodos',data);
     });
   }
 
@@ -44,8 +45,14 @@ export class DispositivoService {
       if(!this.globalService.server.online){
         resolve(false);
       }
-  
-      this.io.registrarDispositivo(this.dispositivo).then((resp:any)=>{
+
+      if (this.globalService.android){
+        this.dispositivo.uuid = this.device.uuid;
+        this.dispositivo.iccid = this.device.serial;
+      } 
+
+
+      this.socketIoService.registrarDispositivo(this.dispositivo).then((resp:any)=>{
         this.guardarStorage(resp.server.dispositivo);
         resolve(true);
       }).catch((error)=>{
@@ -63,13 +70,12 @@ export class DispositivoService {
         //dispositivo
         this.storage.get('dispositivo').then((dispositivo)=>{
           if(dispositivo){
-            this.dispositivo = dispositivo;
+            this.dispositivo = JSON.parse( dispositivo );
             resolve(true);//existe 
           }else{
             resolve(false);//no existe
           }
         });
-
       }else{
         //escritorio
         if ( localStorage.getItem('dispositivo')) {
@@ -91,12 +97,9 @@ export class DispositivoService {
     if(this.globalService.android){
       //dispositivo
       this.storage.set('dispositivo',JSON.stringify(dispositivo));
-
     }else{
       //escritorio
       localStorage.setItem('dispositivo', JSON.stringify(dispositivo) );
-      console.log(dispositivo);
-
     }
 
     this.dispositivo = dispositivo;
@@ -108,6 +111,7 @@ export class DispositivoService {
 
     this.cargarStorage().then((existe)=>{
       if (existe){
+
         this.geolocation.getCurrentPosition().then((ubicacionInstante:Geoposition)=>{
           this.dispositivo.geoposicion=ubicacionInstante;
           this.geoposicion = ubicacionInstante;
@@ -119,10 +123,6 @@ export class DispositivoService {
               this.dispositivo.geoposicion = geoposicion;
               this.geoposicion = geoposicion;
             }
-
-            this.io.enviarEvento('dispositivoConectado',this.dispositivo).then((resp) =>{
-              //console.log(resp);
-            });
 
           },
           (error) =>{

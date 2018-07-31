@@ -8,7 +8,8 @@ import { ViewChild } from '@angular/core';
 import { Slides,List } from 'ionic-angular';
 
 import { OperarioService } from '../../providers/operario/operario.service';
-import { DespachoPage } from '../../pages/index.pages';
+import { DespachoPage } from '../despacho/despacho';
+
 import { Operario } from '../../models/operario.model';
 
 

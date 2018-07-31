@@ -101,7 +101,7 @@ observar(audiencia: string) {
         //dispositivo
         this.storage.get('dispositivo').then((dispositivo)=>{
           if(dispositivo){
-            this.conectarAlServidor(dispositivo);
+            this.conectarAlServidor(JSON.parse(dispositivo));
             resolve(true);//existe 
           }else{
             resolve(false);//no existe

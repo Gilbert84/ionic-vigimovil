@@ -6,12 +6,12 @@
             <button ion-button>
                         <ion-icon name="contact" style="font-size: 30px;"></ion-icon>
                         <ion-col>
-                            {{this.operarioService.operario.nombre}}
+                            {{operarioService.operario.nombre}}
                         </ion-col>
                     </button>
 
             <button ion-button>
-                        {{this.operarioService.operario.empresa.nombre}}
+                        {{operarioService.operario.empresa.nombre}}
                     </button>
             <button ion-button>
                         <span style="font-size: 30px;">{{fechaHora | date:'H:mm:ss'}}</span>
@@ -38,8 +38,8 @@
 
 
     <ion-tabs tabsHighlight="true" tabsPlacement="top" color="primary">
-        <ion-tab tabIcon="bus" tabTitle="Ruta" [root]="tab1" [tabBadge]="nuemeroViajes" tabBadgeStyle="danger"></ion-tab>
-        <ion-tab tabIcon="contacts" tabTitle="Pasajeros" [root]="tab2" tabBadge="5" tabBadgeStyle="danger"></ion-tab>
+        <ion-tab tabIcon="bus" tabTitle="Ruta" [root]="tab1" tabBadge="0" tabBadgeStyle="danger"></ion-tab>
+        <ion-tab tabIcon="contacts" tabTitle="Pasajeros" [root]="tab2" [tabBadge]="registroContador.ch2In" tabBadgeStyle="danger"></ion-tab>
     </ion-tabs>
 
 </ion-content>
@@ -61,18 +61,18 @@
         </ion-col>
     </ion-row>
     <ion-row align-items-center>
-            <ion-col class="col-border secondary" col-auto>
-                    <div class="color-etiqueta">Inicia en :<label> {{viaje.ruta.origen.nombre | uppercase}}</label></div>
-            </ion-col>
-            <ion-col class="col-border" col-auto>
-                    <div class="color-etiqueta">Termina en :<label> {{viaje.ruta.destino.nombre | uppercase}}</label></div>
-            </ion-col>
-            <ion-col class="col-border" col-auto>
-                <div class="color-etiqueta">Hora Salida :<label> {{viaje.horaSalidaOperario | date:'mediumTime'}}</label></div>
-            </ion-col>
-            <ion-col class="col-border">
-                <div class="color-etiqueta">Hora Salida Asignada :<label> {{viaje.horaLlegadaAsignada | date:'mediumTime'}}</label></div>
-            </ion-col>
+        <ion-col class="col-border secondary" col-auto>
+            <div class="color-etiqueta">Inicia en :<label> {{viaje.ruta.origen.nombre | uppercase}}</label></div>
+        </ion-col>
+        <ion-col class="col-border" col-auto>
+            <div class="color-etiqueta">Termina en :<label> {{viaje.ruta.destino.nombre | uppercase}}</label></div>
+        </ion-col>
+        <ion-col class="col-border" col-auto>
+            <div class="color-etiqueta">Hora Salida :<label> {{viaje.horaSalidaOperario | date:'mediumTime'}}</label></div>
+        </ion-col>
+        <ion-col class="col-border">
+            <div class="color-etiqueta">Hora Salida Asignada :<label> {{viaje.horaLlegadaAsignada | date:'mediumTime'}}</label></div>
+        </ion-col>
     </ion-row>
 
 </ion-footer>

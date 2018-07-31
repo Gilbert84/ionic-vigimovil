@@ -6,6 +6,7 @@ import { ViajeService } from '../../providers/viaje/viaje.service';
 import { DispositivoService } from '../../providers/dispositivo/dispositivo.service';
 import { Dispositivo } from '../../models/dispositivo.model';
 import { DespachoPage } from '../despacho/despacho';
+import { Viaje } from '../../models/viaje.model';
 
 
 
@@ -51,7 +52,7 @@ export class VehiclePage {
 
   transitOptions: string = 'TRANSIT';
 
-  viaje:any;
+  viaje:Viaje = new Viaje();
   cargando:boolean = true;
   visible:boolean = true;
 
@@ -63,9 +64,9 @@ export class VehiclePage {
               public navParams: NavParams,
               public alertCtrl:AlertController,
               public dispositivoService:DispositivoService,
-              private viajeService:ViajeService
+              public viajeService:ViajeService
               ) {
-              this.gaugeSize = Math.floor(platform.height()/6.5);
+              this.gaugeSize = Math.floor(this.platform.height()/6.5);
               this.viajeService.cargarViaje().then((existe) =>{
                 if (existe){
                   this.cargando= false;

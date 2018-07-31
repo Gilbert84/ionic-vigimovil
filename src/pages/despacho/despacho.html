@@ -47,12 +47,16 @@
                 </ngx-gauge>
             </ion-col>
 
+            <ion-col>
+                <ngx-gauge foregroundColor="red" [max]="gaugeMaxControles" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" [value]="viajeService.viaje.ruta.puntosControl.length" label="Paradas" [append]="gaugeAppendText">
+                </ngx-gauge>
+            </ion-col>
+
         </ion-row>
 
 
         <ion-card-header>
-
-            <h1 color="primary">{{viajeService.viaje.ruta.nombre}}</h1>
+            {{viajeService.viaje.ruta.nombre}}
         </ion-card-header>
 
         <ion-row align-items-center>
@@ -75,14 +79,6 @@
 
             </ion-col>
 
-            <ion-col>
-                <ion-item>
-                    <ion-icon name="information-circle" item-start large></ion-icon>
-                    <h2>Fecha y Hora</h2>
-                    <p><strong>{{viajeService.viaje.asignacion.fechaHora | date:'medium'}}</strong></p>
-                </ion-item>
-
-            </ion-col>
         </ion-row>
         <ion-row align-items-center>
 
@@ -98,7 +94,7 @@
             <ion-col>
                 <ion-item>
                     <ion-icon name="information-circle" item-start large></ion-icon>
-                    <h2>Hora de llegada Asignada</h2>
+                    <h2>Hora de llegada Calculada</h2>
                     <p><strong>{{viajeService.viaje.horaLlegadaAsignada | date:'mediumTime'}}</strong></p>
                 </ion-item>
 
@@ -111,7 +107,7 @@
                 <ion-item>
                     <ion-icon name="information-circle" item-start large></ion-icon>
                     <h2>El viaje Inicia en</h2>
-                    <p><strong>{{viajeService.viaje.ruta.origen.direccion}}</strong></p>
+                    <p><strong>{{viajeService.viaje.ruta.origen.direccion}} ({{viajeService.viaje.ruta.origen.nombre}})</strong></p>
                 </ion-item>
 
             </ion-col>
@@ -120,7 +116,7 @@
                 <ion-item>
                     <ion-icon name="information-circle" item-start large></ion-icon>
                     <h2>El viaje termina en</h2>
-                    <p><strong>{{viajeService.viaje.ruta.destino.direccion}}</strong></p>
+                    <p><strong>{{viajeService.viaje.ruta.destino.direccion}} ({{viajeService.viaje.ruta.destino.nombre}})</strong></p>
                 </ion-item>
 
             </ion-col>
@@ -129,8 +125,8 @@
         <ion-row>
             <ion-col>
                 <ion-item>
-                    <span item-start>18 min</span>
-                    <span item-start>(2.6 mi)</span>
+                    <span item-start>Tiempo disponible :</span>
+                    <span item-start>( {{viajeService.tiempoDisponible / 3600 | number:'2.0-0'}} : {{(viajeService.tiempoDisponible % 3600) / 60 | number:'2.0-0'}} : {{viajeService.tiempoDisponible % 60 | number:'2.0-0'}} )</span>
                     <button ion-button icon-start large item-end (click)="iniciarViaje()">
                       <ion-icon name="navigate"></ion-icon>
                       Iniciar

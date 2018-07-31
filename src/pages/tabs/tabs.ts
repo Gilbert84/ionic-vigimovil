@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
 import { IonicPage,NavController,AlertController, LoadingController} from 'ionic-angular';
-import { VehiclePage, CounterPage , LoginPage, DespachoPage} from '../index.pages';
+import { VehiclePage, CounterPage, DespachoPage} from '../index.pages';
 import { CounterService } from '../../providers/counter/counter.service';
 import { OperarioService } from '../../providers/operario/operario.service';
 //import { UbicacionService } from '../../providers/plugins-nativos/plugins.service.index';
 import { Socket } from 'ng-socket-io';
 import { SocketIoService } from '../../providers/socket-io/socket-io.service';
 import { ViajeService } from '../../providers/viaje/viaje.service';
+import { ConfigService } from '../../providers/config/config.service';
+import { RegistroContador } from '../../models/registro-contador.model';
+import { Operario } from '../../models/operario.model';
+import { Viaje } from '../../models/viaje.model';
 
 
 
@@ -21,36 +25,36 @@ export class TabsPage {
   tab1:any=VehiclePage;
   tab2:any=CounterPage;
 
-  viaje:any;
-  operario:any;
-
-  fechaHora:any;
+  viaje:Viaje = new Viaje();
+  operario:Operario = new Operario();
+  registroContador:RegistroContador = new RegistroContador();
+  fechaHora:Date;
 
   server = {
     online:false,
     mensaje:''
   }
 
-  nuemeroViajes:number=0;
-
   constructor(
-              private navCtrl:NavController,
-              private alertCtrl:AlertController,
-              private contadorService:CounterService,
-              private operarioService:OperarioService,
-              public io:Socket,
-              public SocketIoService:SocketIoService,
-              public viajeService:ViajeService,
-              private loadingCtrl:LoadingController,
-              ) {
-                this.SocketIoService.observar('dispositivoMensajePrivado').subscribe((data) =>{
-                  console.log('nuevo app componnet',data);
-                });
+    private navCtrl:NavController,
+    private alertCtrl:AlertController,
+    private contadorService:CounterService,
+    public operarioService:OperarioService,
+    public io:Socket,
+    public SocketIoService:SocketIoService,
+    public viajeService:ViajeService,
+    private loadingCtrl:LoadingController,
+    private configService:ConfigService
+    ) {
 
-                
+    console.log('tabs constructor',this.registroContador);  
+    console.log('operario',this.operario);
+    console.log('viaje',this.viaje);
+    this.SocketIoService.observar('dispositivoMensajePrivado').subscribe((data) =>{
+    });
+      
     this.tab1=VehiclePage;
     this.tab2=CounterPage;
-    this.obtenerConteo();
 
     setInterval(()=>{
       this.fechaHora= new Date();
@@ -69,17 +73,31 @@ export class TabsPage {
         this.navCtrl.setRoot(DespachoPage);
       }
     });
+
+    this.configService.cargarConfiguracion().then( (existe) =>{
+      if(existe) {
+        this.iniciarConteo();
+      }else{
+        this.alertCtrl.create({
+          title: 'Advertencia!!!',
+          subTitle:"No se ha configurado la ip del contador",
+          buttons:["Ok!"]
+        }).present();        
+      }
+    })
   }
 
 
-  obtenerConteo(){
+  iniciarConteo(){
+    this.contadorService.conectarContador().retry().subscribe();
+
     this.contadorService.contador
-      .subscribe(
-      (data)=>{
-        //console.log("tabs" , data);
+      .retry().subscribe(
+      (registroContador)=>{
+        this.registroContador = registroContador;
       },
       (error)=>{
-        //console.log('error: ',error);
+        console.log('error: ',error);
       },
       ()=>{
         //console.log('se detuvo el observador');

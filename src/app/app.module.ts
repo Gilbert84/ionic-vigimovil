@@ -23,6 +23,7 @@ import { DispositivoService } from '../providers/dispositivo/dispositivo.service
 import { CounterService } from '../providers/counter/counter.service';
 import { SocketIoService } from '../providers/socket-io/socket-io.service';
 import { WebsocketService } from '../providers/websocket/websocket.service';
+import { ConfigService } from '../providers/config/config.service';
 
 //servicio global 
 import { GlobalService } from '../global/global.service';
@@ -43,7 +44,6 @@ import {
 import { CounterEventPage , QrScannerPage } from '../pages/counter/indexCounter.pages';
 import { VehicleEventPage } from '../pages/vehicle/indexVehicle.pages';
 import { ViajeService } from '../providers/viaje/viaje.service';
-
 
 
 
@@ -99,7 +99,8 @@ import { ViajeService } from '../providers/viaje/viaje.service';
     WebsocketService,
     DispositivoService,
     GlobalService,
-    ViajeService
+    ViajeService,
+    ConfigService
   ]
 })
 export class AppModule {}

@@ -15,7 +15,7 @@ export class WebsocketService {
 
     	if (!this.subject) {
 
-			console.log("Conectando a: " + url);
+			//console.log("Conectando a: " + url);
 			  this.subject = this.create(url);
 			  
 		} 
@@ -24,13 +24,20 @@ export class WebsocketService {
 
   	private create(url): Rx.Subject<MessageEvent> {
 
-		let ws = new WebSocket(url);
+		let ws = new WebSocket(url+"/,['arduino']");
 
 		let observable = Rx.Observable.create(
 		(obs: Rx.Observer<MessageEvent>) => {
+			ws.onopen = function (openEvent) {
+				//console.log(openEvent);
+			}
 			ws.onmessage = obs.next.bind(obs);
 			ws.onerror = obs.error.bind(obs);
-			ws.onclose = obs.complete.bind(obs);
+			//ws.onclose = obs.complete.bind(obs);
+			ws.onclose = function (event) {
+				//console.log('close',event.code,event.reason,event.wasClean);
+				obs.complete.bind(obs);
+			}
 			return ws.close.bind(ws);
 		}).retry();
 
@@ -38,9 +45,9 @@ export class WebsocketService {
 			next: (data: Object) => {
 				if (ws.readyState === WebSocket.OPEN) {
 					ws.send(JSON.stringify(data));
-					console.log('data', data);
+					//console.log('data', data);
 				}
-				console.log('ws.readyState',ws.readyState);
+				//console.log('ws.readyState',ws.readyState);
 			}
 		}
 

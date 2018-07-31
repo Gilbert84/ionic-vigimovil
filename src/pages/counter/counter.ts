@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { CounterEventPage, QrScannerPage , } from './indexCounter.pages';
 //import { UserService } from '../../providers/user/user.service';
-import { CounterService , Comando } from '../../providers/counter/counter.service';
+import { CounterService } from '../../providers/counter/counter.service';
 //import { TextoAVozService } from '../../providers/plugins-nativos/plugins.service.index';
 import { AudioConteo } from '../../interfaces/audioConteo.interface';
+import { EventoContador, Codigo } from '../../models/registro-contador.model';
+//import { TextoAVozService } from '../../providers/plugins-nativos/plugins.service.index';
 
 
 
@@ -18,11 +20,8 @@ export class CounterPage {
 
   counterEventPage=CounterEventPage;
   qrScannerPage=QrScannerPage;
-  audioConteo:AudioConteo;
+  public audioConteo:AudioConteo;
 
-  estadoPuerta1:boolean=false;
-  estadoPuerta2:boolean=false;
-  
   gaugeType = "semi";
   //gaugeValue = 28.3;
   //gaugeLabel = "Speed";
@@ -31,17 +30,17 @@ export class CounterPage {
   gaugeSize=90;
   gaugeMax=150;
 
-	private comando:Comando={
+	private comando:EventoContador={
     tipo: 1,
-    codigo: 2,
-    mensaje:'reinicio'
+    codigo: Codigo.limpiar,
+    mensaje:'limpiar'
   }
 
   constructor (
       public navCtrl: NavController,
       public navParams: NavParams,
       //public io:SocketIoService,
-      private contadorService:CounterService,
+      public contadorService:CounterService,
       //private textoAVozService:TextoAVozService
     ){
       this.audioConteo = this.contadorService.audiosConteo[0];
@@ -77,7 +76,7 @@ export class CounterPage {
       this.audioConteo.reproducir= true;
     }
     this.contadorService.reproducirAudio(this.audioConteo);
-    this.reiniciar();
+    //this.reiniciar();
   }
 
 
