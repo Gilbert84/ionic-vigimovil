@@ -1,0 +1,59 @@
+page-despacho {
+    .card-background-page {
+
+        ion-card {
+          position: relative;
+          text-align: center;
+        }
+      
+        .card-title {
+          position: absolute;
+          top: 36%;
+          font-size: 2.0em;
+          width: 100%;
+          font-weight: bold;
+          color: #fff;
+        }
+      
+        .card-subtitle {
+          font-size: 1.0em;
+          position: absolute;
+          top: 52%;
+          width: 100%;
+          color: #fff;
+        }
+      
+      }
+      ion-scroll {
+        position: relative;
+        display: block;
+      }
+      
+      ion-scroll.scroll-x .scroll-content {
+        overflow-x: auto;
+      }
+      
+      ion-scroll.scroll-y .scroll-content {
+        overflow-y: auto;
+      }
+      
+      ion-scroll[center] .scroll-content {
+        display: flex;
+      
+        align-items: center;
+        justify-content: center;
+      }
+      
+      ion-scroll .scroll-content {
+        @include position(0, 0, 0, 0);
+      
+        position: absolute;
+      
+        overflow-y: hidden;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        will-change: scroll-position;
+      }
+      
+      
+}

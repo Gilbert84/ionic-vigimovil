@@ -1,0 +1,7 @@
+{
+  "name": "android-vigimovil",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

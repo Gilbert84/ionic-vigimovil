@@ -1,0 +1,188 @@
+<!--
+  Generated template for the DespachoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar text-center color="primary">
+        <ion-title>Despachos <ion-icon [name]="socketIoService.socketIO.icono" [color]="socketIoService.socketIO.color"></ion-icon>
+            {{socketIoService.socketIO.mensaje}}</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="salirLogin()">
+                <ion-col>Salir</ion-col>
+                <ion-icon name="exit"></ion-icon>
+                </button>
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding class="card-background-page">
+
+    <ion-refresher (ionRefresh)="obtenerViajes($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+
+    <ion-card *ngIf="viajeService.viajes?.length === 0" style="width: 100%; height: auto">
+        <img src="assets/imgs/card-map.png" />
+        <div class="card-title" color="primary">No hay despachos</div>
+        <div class="card-subtitle">por favor espere a que le asignen nuevos despachos</div>
+    </ion-card>
+
+
+    <ion-scroll scrollX="true" scrollY="true" style="width: 100%; height: 40%">
+
+        <ion-list *ngIf="viajeService.viajes?.length > 0" radio-group>
+            <ion-item-sliding *ngFor="let viaje of viajeService.viajes; let pos = index">
+            <ion-item>
+                <ion-avatar item-start>
+                <img src="assets/imgs/card-map.png">
+                </ion-avatar>
+                <ion-label>{{viaje.ruta.nombre}}</ion-label>
+                <ion-radio checked="false" [value]="viaje._id" (click)="viajeSel(viaje)"></ion-radio>
+            </ion-item>
+            <ion-item-options side="right">
+                <button ion-button color="primary">
+                <ion-icon name="mail"></ion-icon>
+                    Email
+                </button>
+                <button ion-button color="secondary">
+                    <ion-icon name="text"></ion-icon>
+                    Text
+                </button>
+                <button ion-button color="danger">
+                    <ion-icon name="trash"></ion-icon>
+                    Cancelar
+                </button>
+            </ion-item-options>
+            </ion-item-sliding>
+            
+        </ion-list>
+
+    </ion-scroll>
+    <ion-card *ngIf="!viajeService.viaje._id  && viajeService.viajes?.length > 0" style="width: 100%; height: 60%">
+        <img src="assets/imgs/card-map.png" />
+        <div class="card-title" color="primary">Selecione un despacho</div>
+        <div class="card-subtitle">Debe selecionar un despacho para iniciar el viaje</div>
+    </ion-card>
+
+    <ion-card text-center *ngIf="viajeService.viaje._id" style="width: 100%; height: 60%">
+        <ion-scroll scrollX="true" scrollY="true" style="width: 100%; height: 100%">
+            <ion-card-header>
+                <ion-label>{{viajeService.viaje.ruta.nombre}}</ion-label>
+            </ion-card-header>
+        
+            <ion-row align-items-center>
+
+            <ion-col>
+                <ngx-gauge foregroundColor="green" [max]="gaugeMaxDistancia" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" [value]="viajeService.viaje.ruta.distancia.value/1000 | number:'1.0-1'" label="Distancia" append="Km">
+                </ngx-gauge>
+            </ion-col>
+
+            <ion-col>
+                <ngx-gauge foregroundColor="green" [max]="gaugeMaxMinutos" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" [value]="viajeService.viaje.ruta.duraccion.value/60 | number:'1.0-1'" label="Duraccion" append="min">
+                </ngx-gauge>
+            </ion-col>
+
+            <ion-col>
+                <ngx-gauge foregroundColor="red" [max]="gaugeMaxControles" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" [value]="viajeService.viaje.ruta.puntosControl?.length" label="Controles" [append]="gaugeAppendText">
+                </ngx-gauge>
+            </ion-col>
+
+            <ion-col>
+                <ngx-gauge foregroundColor="red" [max]="gaugeMaxControles" [size]="gaugeSize" [thick]="gaugethick" [type]="gaugeType" [value]="viajeService.viaje.ruta.puntosControl?.length" label="Paradas" [append]="gaugeAppendText">
+                </ngx-gauge>
+            </ion-col>
+
+        </ion-row>
+
+
+
+
+        <ion-row align-items-center>
+
+            <ion-col>
+                <ion-item>
+                    <ion-icon name="information-circle" item-start></ion-icon>
+                    <h2>Operario</h2>
+                    <p><strong>{{viajeService.viaje.asignacion.operario.nombre}}</strong></p>
+                </ion-item>
+
+            </ion-col>
+
+            <ion-col>
+                <ion-item>
+                    <ion-icon name="information-circle" item-start></ion-icon>
+                    <h2>Vehiculo</h2>
+                    <p><strong>{{viajeService.viaje.asignacion.vehiculo.interno}}</strong></p>
+                </ion-item>
+
+            </ion-col>
+
+        </ion-row>
+        <ion-row align-items-center>
+
+            <ion-col>
+                <ion-item>
+                    <ion-icon name="information-circle" item-start></ion-icon>
+                    <h2>Salida Asignada</h2>
+                    <p><strong>{{viajeService.viaje.horaSalidaAsignada | date:'mediumTime'}}</strong></p>
+                </ion-item>
+
+            </ion-col>
+
+            <ion-col>
+                <ion-item>
+                    <ion-icon name="information-circle" item-start></ion-icon>
+                    <h2>Llegada Calculada</h2>
+                    <p><strong>{{viajeService.viaje.horaLlegadaAsignada | date:'mediumTime'}}</strong></p>
+                </ion-item>
+
+            </ion-col>
+
+        </ion-row>
+        <ion-row align-items-center>
+
+            <ion-col>
+                <ion-item>
+                    <ion-icon name="information-circle" item-start></ion-icon>
+                    <h2>Inicia en :</h2>
+                    <p><strong>{{viajeService.viaje.ruta.origen.direccion}} ({{viajeService.viaje.ruta.origen.nombre}})</strong></p>
+                </ion-item>
+
+            </ion-col>
+
+            <ion-col>
+                <ion-item>
+                    <ion-icon name="information-circle" item-start></ion-icon>
+                    <h2>Termina en :</h2>
+                    <p><strong>{{viajeService.viaje.ruta.destino.direccion}} ({{viajeService.viaje.ruta.destino.nombre}})</strong></p>
+                </ion-item>
+
+            </ion-col>
+        </ion-row>
+
+
+        <ion-row>
+            <ion-col>
+                <ion-item>
+                    <span item-start>Tiempo disponible :</span>
+                    <!-- <span item-start>( {{tiempoDisponible / 3600 | number:'2.0-0'}} : {{(viajeService.tiempoDisponible % 3600) / 60 | number:'2.0-0'}} : {{viajeService.tiempoDisponible % 60 | number:'2.0-0'}} )</span> -->
+                    <button ion-button icon-start large item-end (click)="iniciarViaje()">
+                      <ion-icon name="navigate"></ion-icon>
+                      Iniciar
+                    </button>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        </ion-scroll>
+
+    </ion-card>
+
+
+
+</ion-content>
